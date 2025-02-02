@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   SafeAreaView,
@@ -17,11 +17,14 @@ import {
   View,
 } from 'react-native';
 
-
+import SplashScreen from 'react-native-splash-screen';
 
 
 const App=()=> {
-
+  useEffect(() => {
+    // When your app is ready, hide the splash screen
+    SplashScreen.hide();
+  }, []);
 
   return (
 <View><Text>jhifbkhjfjkjkjkjf</Text></View>
