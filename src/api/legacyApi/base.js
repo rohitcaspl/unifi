@@ -44,14 +44,13 @@ import config from '../../config';
 // Initialize the QueryClient for React Query
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
+      queries: {
       staleTime: Infinity,
       retry: false,
       refetchOnWindowFocus: false,
     },
     mutations: {
       retry: false,
-      refetchOnWindowFocus: false,
     },
   },
 });

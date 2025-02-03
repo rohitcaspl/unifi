@@ -5,7 +5,7 @@ import axios from 'axios';
 const useCreateVideo = options =>
   useMutation({
     mutationFn: lambdaSignatureApi.createVideo,
-    mutationKey: ['create_video'],
+    key: ['create_video'],
     ...options,
   });
 
@@ -22,7 +22,7 @@ const useUploadVideo = options =>
         transformRequest: d => d,
       });
     },
-    mutationKey: ['upload_video'],
+    key: ['upload_video'],
     ...options,
   });
 

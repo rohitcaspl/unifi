@@ -5,7 +5,7 @@ import axios from 'axios';
 const useCreatePhoto = options =>
   useMutation({
     mutationFn: lambdaFaceApi.createPhoto,
-    mutationKey: ['create_photo'],
+    key: ['create_photo'],
     ...options,
   });
 
@@ -22,21 +22,21 @@ const useUploadPhoto = options =>
         transformRequest: d => d,
       });
     },
-    mutationKey: ['upload_photo'],
+    key: ['upload_photo'],
     ...options,
   });
 
 const useGetFaceId = options =>
   useMutation({
     mutationFn: lambdaFaceApi.getFaceId,
-    mutationKey: ['get_face_id'],
+    key: ['get_face_id'],
     ...options,
   });
 
 const useNewFaceId = options =>
   useMutation({
     mutationFn: lambdaFaceApi.newFaceId,
-    mutationKey: ['new_face_id'],
+    key: ['new_face_id'],
     ...options,
   });
 

@@ -1,11 +1,12 @@
 import * as lambdaSignatureApi from '@api/lambdaApi/signatures';
+
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
 const useCreateDoc = options =>
   useMutation({
     mutationFn: lambdaSignatureApi.createDoc,
-    mutationKey: ['create_doc'],
+    key: ['create_doc'],
     ...options,
   });
 
@@ -22,14 +23,14 @@ const useUploadSignature = options =>
         transformRequest: d => d,
       });
     },
-    mutationKey: ['upload_signature'],
+    key: ['upload_signature'],
     ...options,
   });
 
 const usePostSignature = options =>
   useMutation({
     mutationFn: lambdaSignatureApi.postSignature,
-    mutationKey: ['post_signature'],
+    key: ['post_signature'],
     ...options,
   });
 

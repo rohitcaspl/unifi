@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 const useVerifyOtp = (options, withEmail) =>
   useMutation({
     mutationFn: withEmail ? otpApi.verifyOtpMobileAndEmail : otpApi.verifyOtp,
-    mutationKey: ['verify_otp', `${withEmail ? 'with_email' : ''}`],
+    key: ['verify_otp', `${withEmail ? 'with_email' : ''}`],
     ...options,
   });
 
