@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import PropTypes from 'prop-types';
 
 import Button from '@components/Button/Button';
@@ -7,6 +8,7 @@ import colors from '@theme/colors';
 
 import useSendOtp from '@hooks/useSendOtp';
 import useVerifyOtp from '@hooks/useVerifyOtp';
+
 
 import { useHeaderHeight } from '@react-navigation/elements';
 import { NEW_SIGNATURE_STEPS } from '@shared/constants';
@@ -37,10 +39,16 @@ const VerifySignee = ({
 
   const { mutateAsync: verifyOtp, isLoading: isVerifyingOtp } = useVerifyOtp(
     {
-      onSuccess: () => setCurrentStep(NEW_SIGNATURE_STEPS.photo),
-      onError: () => setError('This OTP has expired. Please try again.'),
+      onSuccess: () => {
+        setCurrentStep(NEW_SIGNATURE_STEPS.photo);
+        console.log('OTP verified successfully');
+      },
+      onError: (error) => {
+        setError('This OTP has expired. Please try again.');
+        console.error('OTP verification error:', error);
+      },
     },
-    true,
+    true
   );
 
   const { mutateAsync: sendOtp } = useSendOtp(

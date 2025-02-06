@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-trailing-spaces */
 import { compressImage } from '@shared/helpers';
 import { useMediaContext } from 'context/MediaContext';
 import { PDFDocument } from 'pdf-lib';
@@ -14,66 +16,79 @@ const useSignPdf = () => {
   const signPdf = useCallback(
     async (pdfDoc, pdfData, image, signData) => {
       let signature;
-      if (signData.signature !== '') {
-        signature = await pdfDoc.embedPng(signData.signature);
+      if (signData.users[0].signature_type === 'image' && signData.users[0].signature) {
+        signature = await pdfDoc.embedPng(signData.users[0].signature);
       }
+  
       const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf';
       const fontBytes = await ReactNativeBlobUtil.fetch('GET', url).then(
         res => res.data,
       );
       pdfDoc.registerFontkit(fontkit);
       const font = await pdfDoc.embedFont(fontBytes);
-
-      pdfData.pdf_fields.map(field => {
-        const type = field.type.toLowerCase();
-        const fontSize = 12;
-        const page = pdfDoc.getPage(field.page - 1);
-        const { height } = page.getSize();
-
-        if (type === 'photo') {
-          const scaled = image?.scaleToFit(
-            field.frame.width,
-            field.frame.height,
-          );
-          page.drawImage(image, {
-            x: field.frame.x,
-            y: height - field.frame.y - scaled.height,
-            width: scaled.width,
-            height: scaled.height,
-          });
-        } else if (type === 'signature') {
-          const videOnly = field.settings.video_consent_only;
-          if (video || videOnly) {
-            page.drawText('Video consent done', {
+  
+      pdfData.subjects.forEach(subject => {
+        subject.pdf_fields.forEach(field => {
+          const type = field.type.toLowerCase();
+          const fontSize = 12;
+          const page = pdfDoc.getPage(field.page - 1);
+          const { height } = page.getSize();
+  
+          if (type === 'photo') {
+            const scaled = image?.scaleToFit(
+              field.frame.width,
+              field.frame.height,
+            );
+            page.drawImage(image, {
+              x: field.frame.x,
+              y: height - field.frame.y - scaled.height,
+              width: scaled.width,
+              height: scaled.height,
+            });
+          } else if (type === 'signature') {
+            const videoOnly = field.settings.video_consent_only;
+            if (signData.users[0].signature_type === 'video' || videoOnly) {
+              page.drawText('Video consent done', {
+                size: fontSize,
+                x: field.frame.x,
+                y: height - field.frame.y,
+                height: field.frame.height,
+                width: field.frame.width,
+                font: font,
+              });
+            } else if (signature) {
+              page.drawImage(signature, {
+                x: field.frame.x,
+                y: height - field.frame.y,
+                height: field.frame.height,
+                width: field.frame.width,
+              });
+            }
+          } else if (type === 'name' || type === 'text') {
+            const value = signData.users[0][type][field.name] || '';
+            page.drawText(value, {
               size: fontSize,
               x: field.frame.x,
               y: height - field.frame.y,
-              height: field.frame.height,
-              width: field.frame.width,
               font: font,
             });
-          } else
-            page.drawImage(signature, {
+          } else if (type === 'phone') {
+            const value = signData.users[0].phone || '';
+            page.drawText(value, {
+              size: fontSize,
               x: field.frame.x,
               y: height - field.frame.y,
-              height: field.frame.height,
-              width: field.frame.width,
+              font: font,
             });
-        } else
-          page.drawText(signData[type] || '', {
-            size: fontSize,
-            x: field.frame.x,
-            y: height - field.frame.y,
-            font: font,
-          });
+          }
+        });
       });
-
+  
       const signedPdfBytes = await pdfDoc.saveAsBase64();
-
+  
       setSignedPdf(signedPdfBytes);
       if (Platform.OS === 'android') {
         const pdfPath = FileSystem.cacheDirectory + 'file.pdf';
-
         await FileSystem.writeAsStringAsync(pdfPath, signedPdfBytes, {
           encoding: 'base64',
         });
@@ -85,17 +100,19 @@ const useSignPdf = () => {
   );
 
   const handleSignPdf = useCallback(
-    async (pdfData, signData) => {
+    async (pdfData, signData,urii) => {
       const pdfBytes = await ReactNativeBlobUtil.fetch('GET', pdfData.url).then(
         res => res.data,
       );
       const pdfDoc = await PDFDocument.load(pdfBytes);
 
       const resizedImage = await compressImage({
-        source: signData.uri,
+        source: urii,
         width: 400,
         base64: true,
       });
+console.log('pdfData',pdfData);
+console.log('signData',signData);
 
       const image = await pdfDoc.embedJpg(resizedImage?.base64);
 

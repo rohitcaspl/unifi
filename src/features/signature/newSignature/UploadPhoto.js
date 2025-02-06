@@ -36,27 +36,31 @@ const UploadPhoto = ({
 
   const handleNextStep = async () => {
     try {
+      console.log('Starting image resize');
       const resizedImage = await compressImage({
         source: imageData.uri,
         width: 400,
         base64: true,
       });
+      console.log('Image resized successfully');
 
       const photo = await createPhoto();
+      console.log('Photo created', photo);
 
       const resizedImageResp = await fetch(resizedImage.uri);
       const data = await resizedImageResp.blob();
-
+      console.log('Uploading photo');
       await uploadPhoto({ url: photo.upload_url, data: data });
+      console.log('Photo uploaded');
 
       let faceIDToken = await getFaceId(photo.photo_id);
-
       if (faceIDToken?.user_id) {
+        console.log('Face ID found', faceIDToken);
         setSubjectMatch(faceIDToken);
         setCurrentStep(NEW_SIGNATURE_STEPS.confirm);
       } else {
+        console.log('Creating new face ID');
         faceIDToken = await newFaceId(photo.photo_id);
-
         setCurrentStep(NEW_SIGNATURE_STEPS.signeeInfo);
       }
 
@@ -66,7 +70,9 @@ const UploadPhoto = ({
         image_id: photo.photo_id,
         user_id: faceIDToken.user_id,
       }));
+      console.log('Image data updated');
     } catch (err) {
+      console.error('Error during photo upload process', err);
       if (err.response) {
         Alert.alert('Error', err.response?.data?.message || err.response?.data);
       } else if (err.message) {
@@ -97,14 +103,14 @@ const UploadPhoto = ({
         disabled={imageData?.uri ? false : true}
         onPress={handleNextStep}
       />
-      <SpinnerModal
+      {/* <SpinnerModal
         visible={
           isCreatingPhoto ||
           isUploadingPhoto ||
           isGettingFaceId ||
           isCreatingFaceId
         }
-      />
+      /> */}
     </View>
   );
 };
@@ -113,11 +119,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-
     paddingHorizontal: 16,
     paddingTop: 16,
     borderRadius: 12,
-
     justifyContent: 'space-between',
   },
 });

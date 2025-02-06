@@ -1,3 +1,5 @@
+/* eslint-disable jsx-quotes */
+/* eslint-disable react/react-in-jsx-scope */
 import PropTypes from 'prop-types';
 
 import Button from '@components/Button/Button';
@@ -6,7 +8,7 @@ import colors from '@theme/colors';
 import TextField from '@components/TextField';
 
 import useSendOtp from '@hooks/useSendOtp';
-
+import { setSignee } from 'storage/user';
 import { useEffect, useRef } from 'react';
 import {
   View,
@@ -34,7 +36,10 @@ const EnterMobileAndEmail = ({
 
   const { mutateAsync: sendOtp, isLoading } = useSendOtp(
     {
-      onSuccess: res => {
+      onSuccess: async (res) => {
+        const mobile = getValues('phone');
+       console.log('datamat', mobile);
+        await setSignee({ mobile });
         setSessionId(res.data.session_id);
         setCurrentStep(NEW_SIGNATURE_STEPS.verify);
       },
@@ -97,14 +102,13 @@ const EnterMobileAndEmail = ({
 
           <Button
             text='Next'
-            onPress={() =>
-              handleSubmit(
-                sendOtp({
-                  mobile: getValues('phone'),
-                  ...(getValues('email') && { email: getValues('email') }),
-                }),
-              )
-            }
+            onPress={handleSubmit(() =>
+              sendOtp({
+                mobile: getValues('phone'),
+                ...(getValues('email') && { email: getValues('email') }),
+              })
+            )}
+            
             disabled={!isValid || isLoading}
             customStyle={styles.button}
           />

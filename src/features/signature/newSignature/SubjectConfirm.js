@@ -86,7 +86,7 @@ const SubjectConfirm = ({
           customStyle={styles.button}
         />
       </View>
-      <SpinnerModal visible={isCreatingFaceId} />
+      {/* <SpinnerModal visible={isCreatingFaceId} /> */}
     </View>
   );
 };

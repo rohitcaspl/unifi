@@ -21,7 +21,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { getPhoneNumber } from 'react-native-device-info';
+// import { getPhoneNumber } from 'react-native-device-info';
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,17 +68,17 @@ const Login = () => {
     reset,
   } = useForm({ defaultValues, mode: 'onChange' });
 
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      !isPhoneNumberGranted
-        ? checkPhoneNumberPermission()
-        : getPhoneNumber().then(res => {
-            setAutofillNumber(res);
-            setValue('phone', res);
-            reset({ phone: res });
-          });
-    }
-  }, [isPhoneNumberGranted, checkPhoneNumberPermission, setValue, reset]);
+  // useEffect(() => {
+  //   if (Platform.OS === 'android') {
+  //     !isPhoneNumberGranted
+  //       ? checkPhoneNumberPermission()
+  //       : getPhoneNumber().then(res => {
+  //           setAutofillNumber(res);
+  //           setValue('phone', res);
+  //           reset({ phone: res });
+  //         });
+  //   }
+  // }, [isPhoneNumberGranted, checkPhoneNumberPermission, setValue, reset]);
 
   return (
     <Layout isLogin>
@@ -91,7 +91,7 @@ const Login = () => {
             </View>
             <View style={styles.loginContainer}>
               <CustomText bold size={24} style={styles.title}>
-                Welcome
+             LOGIN
               </CustomText>
               <InputPhone
                 control={control}

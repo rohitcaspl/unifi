@@ -1,10 +1,17 @@
 import otpApi from '@api/legacyApi/otp';
 import { useMutation } from '@tanstack/react-query';
 
-const useSendOtp = (options, withEmail) =>
+const useSendOtp = (options = {}, withEmail = false) =>
   useMutation({
-    mutationFn: withEmail ? otpApi.sendOtpMobileAndEmail : otpApi.sendOtp,
-    mutationKey: ['send_otp', `${withEmail ? 'with_email' : ''}`],
+    mutationFn: async (data) => {
+      try {
+        return withEmail
+          ? await otpApi.sendOtpMobileAndEmail(data)
+          : await otpApi.sendOtp(data);
+      } catch (error) {
+        throw error;
+      }
+    },
     ...options,
   });
 

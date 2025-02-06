@@ -16,9 +16,10 @@ export const compressImage = async ({
         base64,
       },
     );
-
+    console.log('Image manipulation successful:', response);
     return response;
   } catch (error) {
+    console.error('Error during image manipulation:', error);
     return null;
   }
 };

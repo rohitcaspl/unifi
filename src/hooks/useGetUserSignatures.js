@@ -77,16 +77,14 @@ const useGetUserSignatures = (filterData, sort) => {
     [sort, agent_id, company_id, company_name, project_id, form_id],
   );
 
-  const queryResult = useInfiniteQuery(
+  const queryResult = useInfiniteQuery({
     queryKey,
-    ({ pageParam = undefined }) =>
+    queryFn: ({ pageParam = undefined }) =>
       fetchSignatures(queryData, pageParam?.pk, pageParam?.sk, gap),
-    {
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage?.next;
-      },
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage?.next;
     },
-  );
+  });
 
   useEffect(() => {
     if (queryResult.error) {

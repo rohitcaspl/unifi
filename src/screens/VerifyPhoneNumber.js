@@ -15,7 +15,7 @@ import {
   KeyboardAvoidingView,
   Dimensions,
 } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAuthContext } from 'context/AuthContext';
 import LockIcon from '@assets/icons/lock.svg';
 
@@ -32,47 +32,62 @@ const VerifyPhoneNumber = ({ route }) => {
 
   const { country, mobile, phone } = route.params;
   const { setLoggedIn } = useAuthContext();
+
   const { mutateAsync: verifyOtp, isLoading: isVerifyingOtp } = useVerifyOtp({
-    onSuccess: data => setLoggedIn(data),
-    onError: err => {
-      if (err.response?.data?.status === 403)
+    onSuccess: (data) => {
+      console.log('OTP Verified:', data);
+      setLoggedIn( data ); // Prevents unnecessary re-renders
+    },
+    onError: (err) => {
+      if (err.response?.data?.status === 403) {
         setError('This OTP has expired. Please try again.');
+      }
     },
   });
 
   const { mutateAsync: sendOtp } = useSendOtp({
-    onError: err => {
-      err.response?.data?.status === 425 && setIsTimedOut(true);
+    onError: (err) => {
+      if (err.response?.data?.status === 425) {
+        setIsTimedOut(true);
+      }
     },
   });
 
-  const handleOnPress = () => {
+  const handleOnPress = useCallback(async () => {
     try {
       setIsTimedOut(true);
-      sendOtp({ phone, mobile, country });
-    } catch {}
-  };
+      await sendOtp({ phone, mobile, country });
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+    }
+  }, [sendOtp, phone, mobile, country]);
 
-  const handleVerifyOtp = () => {
+  const handleVerifyOtp = useCallback(async () => {
     try {
-      verifyOtp({ country, phone, otp: value });
-    } catch {}
-  };
+      console.log('Verifying OTP...');
+      await verifyOtp({ country, phone, otp: value });
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+    }
+  }, [verifyOtp, country, phone, value]);
 
   useEffect(() => {
-    let timer;
-    if (isTimedOut) {
-      timer = counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+    if (isTimedOut && counter > 0) {
+      const timer = setInterval(() => {
+        setCounter((prev) => (prev > 0 ? prev - 1 : 0)); // Prevents extra renders
+      }, 1000);
+
+      return () => clearInterval(timer);
     }
+
     if (counter === 0) {
       setIsTimedOut(false);
       setCounter(60);
     }
-    return () => clearInterval(timer);
   }, [isTimedOut, counter]);
 
   return (
-    <Layout title='Enter OTP'>
+    <Layout title="Enter OTP">
       <Pressable
         onPress={() => Keyboard.dismiss()}
         accessible={false}
@@ -88,7 +103,7 @@ const VerifyPhoneNumber = ({ route }) => {
               <View style={styles.lockIconContainer}>
                 <LockIcon width={height * 0.08} height={height * 0.08} />
               </View>
-              <CustomText bold size={height * 0.026} textAlign='center'>
+              <CustomText bold size={height * 0.026} textAlign="center">
                 Enter the one-time password (OTP) sent to your mobile device
               </CustomText>
             </View>
@@ -125,24 +140,7 @@ export default VerifyPhoneNumber;
 
 const styles = StyleSheet.create({
   wrapper: { flex: 1, paddingHorizontal: 16 },
-
-  info: { textAlign: 'center', marginBottom: 16 },
-
-  message: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 20,
-  },
-
-  lockIconContainer: {
-    marginBottom: 16,
-  },
-
-  smallVerticalPadding: {
-    paddingVertical: 10,
-  },
-
-  flex: {
-    flex: 1,
-  },
+  message: { justifyContent: 'center', alignItems: 'center', paddingVertical: 20 },
+  lockIconContainer: { marginBottom: 16 },
+  flex: { flex: 1 },
 });

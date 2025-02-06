@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
   overlay: {
     height: '100%',
     width: '100%',
+    borderColor: colors.selectedGray,
   },
   wrapper: {
     flexDirection: 'row',

@@ -13,7 +13,7 @@ import { AuthProvider } from 'context/AuthContext';
 import 'react-native-gesture-handler';
 import useTriggerBiometrics from '@shared/hooks/useTriggerBiometrics';
 import TriggerBiometricsModal from '@components/TriggerBiometricsModal';
-// import * as Location from 'expo-location';
+import * as Location from 'expo-location';
 import config from '@config';
 import { useEffect } from 'react';
 import { WorkspaceProvider } from 'context/WorkspaceContext';
@@ -39,9 +39,11 @@ const App = () => {
   const { triggerBiometrics, dismissed } = useTriggerBiometrics();
   useOnlineManager();
 
-  // useEffect(() => {
-  //   Location.setGoogleApiKey(config.googleApiKey);
-  // }, []);
+  useEffect(() => {
+    if (Platform.OS === 'ios' && Location.setGoogleApiKey) {
+      Location.setGoogleApiKey(config.googleApiKey);
+    }
+  }, []);
 
   const viewStyle = {
     flex: 1,

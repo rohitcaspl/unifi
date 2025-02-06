@@ -1,3 +1,5 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable jsx-quotes */
 import PropTypes from 'prop-types';
 import PhoneInput from 'react-native-phone-input';
 
@@ -119,6 +121,7 @@ const styles = StyleSheet.create({
     height: 52,
     paddingVertical: 8,
     paddingHorizontal: 16,
+    backgroundColor: colors.white, // Set background color
   },
 
   focused: {
@@ -141,6 +144,7 @@ const styles = StyleSheet.create({
     bottom: -18,
     fontFamily: 'DMSans-Regular',
     fontWeight: '400',
+    color: colors.black, // Set text color to black
   },
   changedFormValueStyle: {
     backgroundColor: colors.lightYellow,
