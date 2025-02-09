@@ -64,7 +64,7 @@ const SigneeInformation = ({
   const [subjectOptions, setSubjectOptions] = useState([]);
   const { isMicrophoneGranted, checkMicrophonePermission } =
     useMicrophonePermission();
-    console.log('imagedatafirst',imageData);
+  
   useEffect(() => {
     const handleVideo = async () => {
       if (video) {
@@ -100,6 +100,7 @@ const SigneeInformation = ({
     onSuccess: () => {
       setShouldShowSpinner(false);
       queryClient.invalidateQueries({ queryKey: ['signatures'] });
+      console.log("damns its done");
       navigation.navigate('SuccessModal', { signedPdf: signedPdf });
     },
     onError: err => {
@@ -221,7 +222,7 @@ const SigneeInformation = ({
         signed_doc_id: '', // Will be populated after document creation
         agentId: userData.data.data._id,
         formType: pdfData.form_type,
-        uri: imageData.uri,
+  
         users: [
           {
             user_id: imageData.user_id,

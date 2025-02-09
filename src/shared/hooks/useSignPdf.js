@@ -105,9 +105,10 @@ const useSignPdf = () => {
         res => res.data,
       );
       const pdfDoc = await PDFDocument.load(pdfBytes);
-
+      console.log("if",signData.uri);
+console.log("else",urii);
       const resizedImage = await compressImage({
-        source:signData.uri,
+        source:urii,
         width: 400,
         base64: true,
       });
