@@ -15,7 +15,7 @@ import { useMediaContext } from 'context/MediaContext';
 import { FormProvider, useForm } from 'react-hook-form';
 
 const NewSignature = ({ route }) => {
-  console.log('detail form details:', route);
+
   const [currentStep, setCurrentStep] = useState(
     NEW_SIGNATURE_STEPS.mobileAndEmail,
   );

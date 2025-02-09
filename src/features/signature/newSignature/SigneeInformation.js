@@ -162,16 +162,19 @@ const SigneeInformation = ({
   
       fetchSigneeData();
     }, []);
-  useEffect(() => {
-    if (pdfData?.form_type === 'multiple_subject' && pdfData?.subjects) {
-      const options = pdfData.subjects.map(subject => ({
-        label: subject.title,
-        value: subject.title,
-      }));
-      setSubjectOptions(options);
-      setSelectedSubject(options.length > 0 ? options[0].value : null);
-    }
-  }, [pdfData]);
+    useEffect(() => {
+      if (pdfData?.form_type === 'multiple_subject' && pdfData?.subjects) {
+        const options = pdfData.subjects.map(subject => ({
+          label: subject.title,
+          value: subject.title,
+        }));
+        setSubjectOptions(options);
+        setSelectedSubject(options.length > 0 ? options[0].value : null);
+      } else if (pdfData?.form_type === 'single_subject' && pdfData?.subjects) {
+        // For single_subject, directly set the form fields without requiring subject selection
+        setFormFields(pdfData.subjects[0].pdf_fields);
+      }
+    }, [pdfData]);
   useEffect(() => {
     if (toggleValue === 2) {
       checkCameraPermission();
@@ -298,17 +301,17 @@ const SigneeInformation = ({
           <CustomText style={styles.title} size={16}>
             Complete doc
           </CustomText>
-          {(pdfData.form_type === 'multiple_subject' || pdfData.form_type === 'single_subject') && (
-  <View style={styles.wrapper}>
-    <CustomModalDropdown
-      label={selectedSubject || 'Select Subject'}
-      options={subjectOptions}
-      onSelect={setSelectedSubject}
-      selected={selectedSubject}
-    />
-  </View>
-)}
-          {formFields.map((field, index) => {
+          {pdfData.form_type === 'multiple_subject' && (
+      <View style={styles.wrapper}>
+        <CustomModalDropdown
+          label={selectedSubject || 'Select Subject'}
+          options={subjectOptions}
+          onSelect={setSelectedSubject}
+          selected={selectedSubject}
+        />
+      </View>
+    )}
+    {formFields.map((field, index) => {
             if (field.type === "NAME") {
               const fieldName = `name_${index}`;
               return (
