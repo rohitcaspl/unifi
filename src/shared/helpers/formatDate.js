@@ -4,6 +4,7 @@ import { format, parseISO } from 'date-fns';
 
 
 const formatDate = (date) => {
+    date = new Date(date);
     if (!(date instanceof Date) || isNaN(date)) return 'Invalid date';
   
     return date.toLocaleDateString('en-US', {
