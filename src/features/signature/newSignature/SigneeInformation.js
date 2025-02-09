@@ -213,53 +213,47 @@ const SigneeInformation = ({
   
     const onSubmit = async () => {
       const formValues = getThirdStepValues();
+      
     
-      // Dynamically construct the signData object based on formFields
+      // Dynamically construct the signData object
       const signData = {
         project_id: pdfData.project_id,
         form_id: `${pdfData.project_id}_${pdfData.form_id}`,
         form_name: pdfData.form_name,
-        signed_doc_id: '', // Will be populated after document creation
+        signed_doc_id: '', // Populated later
         agentId: userData.data.data._id,
         formType: pdfData.form_type,
-  
         users: [
           {
             user_id: imageData.user_id,
-            text: {}, // Populate with TEXT fields
+            text: {},
             signature_type: toggleValue === 1 ? 'image' : 'video',
+          
             photo_id: imageData.image_id,
-            name: {}, // Populate with NAME fields
-            phone_number: mobile,
+            name: {}, // Use standardized keys (firstName, middleName, lastName)
+            phone_number: mobile, // Key renamed to phone_number
             email: formValues.email,
             date: new Date().toISOString(),
-            ...(toggleValue === 2 && videoId && { video_id: videoId }), // Add video_id if video consent is given
+            ...(toggleValue === 2 && videoId && { video_id: videoId }),
           },
         ],
       };
     
-      // Populate NAME and TEXT fields dynamically
+      // Populate NAME fields using standardized keys
       formFields.forEach((field, index) => {
         if (field.type === "NAME") {
           const fieldName = `name_${index}`;
           const fieldValue = formValues[fieldName];
     
           if (field.formats) {
-            const { first_name, middle_name, last_name } = field.formats;
-    
-            // Initialize the name object if it doesn't exist
-            if (!signData.users[0].name) {
-              signData.users[0].name = {};
-            }
-    
-            // Map the field value to the appropriate name property
-            if (first_name) {
+            // Map to standardized keys based on the field's format
+            if (field.formats.first_name) {
               signData.users[0].name.firstName = fieldValue;
             }
-            if (middle_name) {
+            if (field.formats.middle_name) {
               signData.users[0].name.middleName = fieldValue;
             }
-            if (last_name) {
+            if (field.formats.last_name) {
               signData.users[0].name.lastName = fieldValue;
             }
           }
@@ -271,7 +265,7 @@ const SigneeInformation = ({
     
       setShouldShowSpinner(true);
       try {
-        const pdf = await handleSignPdf(pdfData, signData, imageData.uri);
+        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature );
         await handleUpload(pdf, signData);
       } catch (err) {
         Sentry.captureException(err);
@@ -312,20 +306,20 @@ const SigneeInformation = ({
         />
       </View>
     )}
-    {formFields.map((field, index) => {
-            if (field.type === "NAME") {
-              const fieldName = `name_${index}`;
-              return (
-                <View key={`name-${index}`} style={styles.mb}>
-                  <TextField
-                    name={fieldName}
-                    control={control}
-                    placeholder={field.name || 'Enter a name'}
-                    validations={{
-                      required: { value: true, message: 'Please enter a name' },
-                    }}
-                  />
-                </View>
+   {formFields.map((field, index) => {
+  if (field.type === "NAME") {
+    const fieldName = `name_${index}`;
+    return (
+      <View key={`name-${index}`} style={styles.mb}>
+        <TextField
+          name={fieldName}
+          control={control}
+          placeholder={field.name || "Enter a name"}
+          validations={{
+            required: { value: true, message: "Please enter a name" },
+          }}
+        />
+      </View>
               );
             } else if (field.type === "TEXT") {
               const fieldName = `text_${index}`;

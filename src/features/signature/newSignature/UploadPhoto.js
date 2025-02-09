@@ -36,7 +36,7 @@ const UploadPhoto = ({
 
   const handleNextStep = async () => {
     try {
-      console.log('Starting image resize');
+      console.log('Starting image resize',imageData.uri);
       const resizedImage = await compressImage({
         source: imageData.uri,
         width: 400,

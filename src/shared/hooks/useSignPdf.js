@@ -14,79 +14,144 @@ const useSignPdf = () => {
   const { video } = useMediaContext();
 
   const signPdf = useCallback(
-    async (pdfDoc, pdfData, image, signData) => {
-      let signature;
-      if (signData.users[0].signature_type === 'image' && signData.users[0].signature) {
-        signature = await pdfDoc.embedPng(signData.users[0].signature);
-      }
-  
+    async (pdfDoc, pdfData, image, signData, signature) => {
       const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf';
       const fontBytes = await ReactNativeBlobUtil.fetch('GET', url).then(
-        res => res.data,
+        res => res.data
       );
       pdfDoc.registerFontkit(fontkit);
       const font = await pdfDoc.embedFont(fontBytes);
   
-      pdfData.subjects.forEach(subject => {
-        subject.pdf_fields.forEach(field => {
+      for (const subject of pdfData.subjects) {
+        for (const field of subject.pdf_fields) {
           const type = field.type.toLowerCase();
           const fontSize = 12;
           const page = pdfDoc.getPage(field.page - 1);
           const { height } = page.getSize();
   
-          if (type === 'photo') {
-            const scaled = image?.scaleToFit(
-              field.frame.width,
-              field.frame.height,
-            );
-            page.drawImage(image, {
-              x: field.frame.x,
-              y: height - field.frame.y - scaled.height,
-              width: scaled.width,
-              height: scaled.height,
-            });
-          } else if (type === 'signature') {
-            const videoOnly = field.settings.video_consent_only;
-            if (signData.users[0].signature_type === 'video' || videoOnly) {
-              page.drawText('Video consent done', {
+          switch (type) {
+            case 'photo': {
+              const scaled = image?.scaleToFit(field.frame.width, field.frame.height);
+              page.drawImage(image, {
+                x: field.frame.x,
+                y: height - field.frame.y - scaled.height,
+                width: scaled.width,
+                height: scaled.height,
+              });
+              break;
+            }
+            case 'signature': {
+              console.log('Processing signature field at:', {
+                x: field.frame.x,
+                y: field.frame.y,
+                width: field.frame.width,
+                height: field.frame.height
+              });
+  
+              if (signature) {
+                try {
+                  const signatureImage = await pdfDoc.embedPng(signature);
+                  page.drawImage(signatureImage, {
+                    x: field.frame.x,
+                    y: height - field.frame.y,
+                    height: field.frame.height,
+                    width: field.frame.width,
+                  });
+                } catch (err) {
+                  console.error('Error embedding signature:', err);
+                  page.drawText('Signature Error', {
+                    size: fontSize,
+                    x: field.frame.x,
+                    y: height - field.frame.y,
+                    font: font,
+                  });
+                }
+              } else if (signData.users[0].signature_type === 'video') {
+                page.drawText('Video consent done', {
+                  size: fontSize,
+                  x: field.frame.x,
+                  y: height - field.frame.y,
+                  font: font,
+                });
+              }
+              break;
+            }
+            case 'name': {
+              let nameValue = '';
+              if (field.formats?.first_name) {
+                nameValue = signData.users[0].name.firstName || '';
+              } else if (field.formats?.middle_name) {
+                nameValue = signData.users[0].name.middleName || '';
+              } else if (field.formats?.last_name) {
+                nameValue = signData.users[0].name.lastName || '';
+              }
+              page.drawText(nameValue, {
                 size: fontSize,
                 x: field.frame.x,
                 y: height - field.frame.y,
-                height: field.frame.height,
-                width: field.frame.width,
                 font: font,
               });
-            } else if (signature) {
-              page.drawImage(signature, {
+              break;
+            }
+            case 'text': {
+              const textValue = signData.users[0].text[field.name] || '';
+              page.drawText(textValue, {
+                size: fontSize,
                 x: field.frame.x,
                 y: height - field.frame.y,
-                height: field.frame.height,
-                width: field.frame.width,
+                font: font,
               });
+              break;
             }
-          } else if (type === 'name' || type === 'text') {
-            const value = signData.users[0][type][field.name] || '';
-            page.drawText(value, {
-              size: fontSize,
-              x: field.frame.x,
-              y: height - field.frame.y,
-              font: font,
-            });
-          } else if (type === 'phone') {
-            const value = signData.users[0].phone || '';
-            page.drawText(value, {
-              size: fontSize,
-              x: field.frame.x,
-              y: height - field.frame.y,
-              font: font,
-            });
+            case 'phone': {
+              const phoneValue = signData.users[0].phone_number || '';
+              page.drawText(phoneValue, {
+                size: fontSize,
+                x: field.frame.x,
+                y: height - field.frame.y,
+                font: font,
+              });
+              break;
+            }
+            case 'email': {
+              const emailValue = signData.users[0].email || '';
+              page.drawText(emailValue, {
+                size: fontSize,
+                x: field.frame.x,
+                y: height - field.frame.y,
+                font: font,
+              });
+              break;
+            }
+            case 'location': {
+              const locationValue = signData.users[0].location || '';
+              page.drawText(locationValue, {
+                size: fontSize,
+                x: field.frame.x,
+                y: height - field.frame.y,
+                font: font,
+              });
+              break;
+            }
+            case 'date': {
+              const dateValue = new Date(signData.users[0].date).toLocaleDateString() || '';
+              page.drawText(dateValue, {
+                size: fontSize,
+                x: field.frame.x,
+                y: height - field.frame.y,
+                font: font,
+              });
+              break;
+            }
+            default:
+              break;
           }
-        });
-      });
+        }
+      }
   
       const signedPdfBytes = await pdfDoc.saveAsBase64();
-  
       setSignedPdf(signedPdfBytes);
+  
       if (Platform.OS === 'android') {
         const pdfPath = FileSystem.cacheDirectory + 'file.pdf';
         await FileSystem.writeAsStringAsync(pdfPath, signedPdfBytes, {
@@ -96,30 +161,28 @@ const useSignPdf = () => {
       }
       return signedPdfBytes;
     },
-    [video],
+    [video]
   );
+  
 
   const handleSignPdf = useCallback(
-    async (pdfData, signData,urii) => {
+    async (pdfData, signData, uri, signature) => {
       const pdfBytes = await ReactNativeBlobUtil.fetch('GET', pdfData.url).then(
-        res => res.data,
+        res => res.data
       );
       const pdfDoc = await PDFDocument.load(pdfBytes);
-      console.log("if",signData.uri);
-console.log("else",urii);
+      
       const resizedImage = await compressImage({
-        source:urii,
+        source: uri,
         width: 400,
         base64: true,
       });
-console.log('pdfData',pdfData);
-console.log('signData',signData);
-
+      
       const image = await pdfDoc.embedJpg(resizedImage?.base64);
-
-      return signPdf(pdfDoc, pdfData, image, signData);
+      
+      return signPdf(pdfDoc, pdfData, image, signData, signature);
     },
-    [signPdf],
+    [signPdf]
   );
 
   return { handleSignPdf, signedPdf };
