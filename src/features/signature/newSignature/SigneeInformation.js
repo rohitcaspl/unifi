@@ -49,7 +49,7 @@ const SigneeInformation = ({
   pdfData,
   setCurrentStep,
   setNextTitle,
-}) => {
+}) => {  console.log('mydata',pdfData);
   const { userData } = useAuthContext();
   const [toggleValue, setToggleValue] = useState(onlyVideoConsent ? 2 : 1);
   const { isCameraGranted, checkCameraPermission } = useCameraPermission();
@@ -64,6 +64,7 @@ const SigneeInformation = ({
   const [subjectOptions, setSubjectOptions] = useState([]);
   const { isMicrophoneGranted, checkMicrophonePermission } =
     useMicrophonePermission();
+    console.log('imagedatafirst',imageData);
   useEffect(() => {
     const handleVideo = async () => {
       if (video) {
@@ -217,6 +218,7 @@ const SigneeInformation = ({
         signed_doc_id: '', // Will be populated after document creation
         agentId: userData.data.data._id,
         formType: pdfData.form_type,
+        uri: imageData.uri,
         users: [
           {
             user_id: imageData.user_id,

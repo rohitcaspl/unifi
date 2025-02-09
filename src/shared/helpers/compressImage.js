@@ -7,7 +7,8 @@ export const compressImage = async ({
   compress = 0.8,
   base64 = false,
 }) => {
-  try {
+  try {console.log("Image source:", source);
+
     const response = await manipulateAsync(
       source,
       [{ resize: { width, height } }],

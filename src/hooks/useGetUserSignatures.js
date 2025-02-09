@@ -8,11 +8,11 @@ import { useMemo, useEffect, useState } from 'react';
 const gap = 10;
 
 const fetchSignatures = async (data, nextPk, nextSk, limit) => {
-  let signatures;
+  let response;
 
   if (data?.project_id) {
     if (data.form_id && data.form_id !== 0) {
-      signatures = await signaturesLambdaApi.getAllFormSignatures(
+      response = await signaturesLambdaApi.getAllFormSignatures(
         data.project_id,
         data.form_id,
         nextPk,
@@ -20,7 +20,7 @@ const fetchSignatures = async (data, nextPk, nextSk, limit) => {
         limit,
       );
     } else {
-      signatures = await signaturesLambdaApi.getAllProjectSignatures(
+      response = await signaturesLambdaApi.getAllProjectSignatures(
         data.project_id,
         nextPk,
         nextSk,
@@ -29,12 +29,17 @@ const fetchSignatures = async (data, nextPk, nextSk, limit) => {
     }
   }
 
-  //if (data.agent_id && data.agent_id != 0) {
-  //  signatures.signatures = signatures.signatures.filter(signature => signature.agent_id == data.agent_id);
-  //}
-
+  // Normalize the API response to match the expected structure
+  const responseData = response.responseData || response.data || response;
   return {
-    signatures,
+    signatures: {
+      // Nested signatures array (flattened later in the hook)
+      signatures: responseData.signatures || [],
+      // Total count using the API provided "total" or "count"
+      total: responseData.total || responseData.count || 0,
+      // Optional next page token if provided
+      next: responseData.next || null,
+    },
   };
 };
 
@@ -82,13 +87,13 @@ const useGetUserSignatures = (filterData, sort) => {
     queryFn: ({ pageParam = undefined }) =>
       fetchSignatures(queryData, pageParam?.pk, pageParam?.sk, gap),
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage?.next;
+      return lastPage?.signatures?.next;
     },
   });
 
   useEffect(() => {
     if (queryResult.error) {
-      setFlatResult();
+      setFlatResult([]);
     }
   }, [queryResult.error]);
 

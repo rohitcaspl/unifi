@@ -50,7 +50,6 @@
     "react-native-confetti-cannon": "^1.5.2",
     "react-native-create-thumbnail": "^2.0.1",
     "react-native-device-info": "^14.0.2",
-    "react-native-device-number": "^1.0.9",
     "react-native-dotenv": "^3.4.11",
     "react-native-expo-image-cache": "^4.1.0",
     "react-native-gesture-handler": "^2.22.1",

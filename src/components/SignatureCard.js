@@ -1,3 +1,5 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable curly */
 import FormIcon from '@assets/icons/form.svg';
 import OptionsIcon from '@assets/icons/options';
 import colors from '@theme/colors';
@@ -18,6 +20,8 @@ const SignatureCard = ({ item, onPress }) => {
   const { selectedWorkspace } = useWorkspaceContext();
   const navigation = useNavigation();
 
+  const formattedDate = item.date ? formatDate(new Date(item.date)) : "N/A";
+console.log('dtae',item);
   return (
     <View style={styles.container}>
       <Pressable style={styles.wrapper} onPress={onPress}>
@@ -25,10 +29,10 @@ const SignatureCard = ({ item, onPress }) => {
           <CustomImage uri={item.photo_url} customStyle={styles.avatar} />
           <View style={styles.nameAndDate}>
             <CustomText size={16} bold>
-              {item.name}
+              {item.name || "Unknown"}
             </CustomText>
             <CustomText size={12} style={styles.grey}>
-              {formatDate(new Date(item.date))}
+              {formattedDate}
             </CustomText>
           </View>
 
@@ -46,22 +50,20 @@ const SignatureCard = ({ item, onPress }) => {
 
         <View style={styles.bottom}>
           <View style={styles.folderPath}>
-            <CustomText style={[styles.grey, styles.workspace]} numOfLines={1}>
-              {selectedWorkspace.display_company_name}
+            <CustomText style={[styles.grey, styles.workspace]} numberOfLines={1}>
+              {selectedWorkspace.display_company_name || "Unknown Workspace"}
             </CustomText>
 
-            <CustomText
-              size={16}
-              style={[styles.grey, styles.arrow]}
-            >{`>`}</CustomText>
-            <CustomText style={[styles.grey, styles.project]} numOfLines={1}>
-              {item.project_name}
+            <CustomText size={16} style={[styles.grey, styles.arrow]}> {`>`} </CustomText>
+
+            <CustomText style={[styles.grey, styles.project]} numberOfLines={1}>
+              {item.project_name || "Unknown Project"}
             </CustomText>
           </View>
           <View style={styles.formContainer}>
             <FormIcon width={12} height={12} stroke={colors.orange} />
             <CustomText style={[styles.grey, styles.formName]}>
-              {item.form_name}
+              {item.form_name || "Unnamed Form"}
             </CustomText>
           </View>
         </View>
@@ -69,6 +71,8 @@ const SignatureCard = ({ item, onPress }) => {
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {

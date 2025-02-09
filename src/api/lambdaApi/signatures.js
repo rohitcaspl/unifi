@@ -22,7 +22,7 @@ const getAllProjectSignatures = (projectId, nextPk, nextSk, limit) =>
 
 const getAllFormSignatures = (projectId, formId, nextPk, nextSk, limit) =>
   axios.get(
-    `/api/v1/signatures/projects/${projectId}/forms/${formId}`,
+    `/api/v1/signatures/projects/${projectId}/forms/${projectId}_${formId}`,
     {},
     {
       params: {

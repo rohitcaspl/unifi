@@ -1,3 +1,5 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable jsx-quotes */
 import colors from '@theme/colors';
 
 import { StyleSheet, View } from 'react-native';
