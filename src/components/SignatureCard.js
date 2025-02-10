@@ -57,7 +57,7 @@ console.log('dtae',item);
             <CustomText size={16} style={[styles.grey, styles.arrow]}> {`>`} </CustomText>
 
             <CustomText style={[styles.grey, styles.project]} numberOfLines={1}>
-              {item.project_name || "Unknown Project"}
+              {item.form_name || "Unknown Project"}
             </CustomText>
           </View>
           <View style={styles.formContainer}>
