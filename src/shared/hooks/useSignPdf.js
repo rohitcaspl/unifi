@@ -14,14 +14,15 @@ const useSignPdf = () => {
   const { video } = useMediaContext();
 
   const signPdf = useCallback(
-    async (pdfDoc, pdfData, image, signData, signature) => {
+    async (pdfDoc, pdfData, image, signData, signature,loca) => {
       const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf';
       const fontBytes = await ReactNativeBlobUtil.fetch('GET', url).then(
         res => res.data
       );
       pdfDoc.registerFontkit(fontkit);
       const font = await pdfDoc.embedFont(fontBytes);
-  
+  console.log('adfData',pdfData);
+  console.log('signdta',signData);
       for (const subject of pdfData.subjects) {
         for (const field of subject.pdf_fields) {
           const type = field.type.toLowerCase();
@@ -78,12 +79,30 @@ const useSignPdf = () => {
             }
             case 'name': {
               let nameValue = '';
-              if (field.formats?.first_name) {
-                nameValue = signData.users[0].name.firstName || '';
-              } else if (field.formats?.middle_name) {
-                nameValue = signData.users[0].name.middleName || '';
-              } else if (field.formats?.last_name) {
-                nameValue = signData.users[0].name.lastName || '';
+              const nameData = signData.users[0].name;
+              if (typeof nameData === 'string') {
+                // Directly use the string if no formats
+                nameValue = nameData;
+              } else {
+                // Handle object with formats
+                const hasFormats = field.formats && (
+                  field.formats.first_name || 
+                  field.formats.middle_name || 
+                  field.formats.last_name
+                );
+            
+                if (hasFormats) {
+                  if (field.formats.first_name) {
+                    nameValue = nameData.firstName || '';
+                  } else if (field.formats.middle_name) {
+                    nameValue = nameData.middleName || '';
+                  } else if (field.formats.last_name) {
+                    nameValue = nameData.lastName || '';
+                  }
+                } else {
+                  // Fallback if formats exist but none are matched (shouldn't happen)
+                  nameValue = '';
+                }
               }
               page.drawText(nameValue, {
                 size: fontSize,
@@ -124,7 +143,7 @@ const useSignPdf = () => {
               break;
             }
             case 'location': {
-              const locationValue = signData.users[0].location || '';
+              const locationValue = loca || '';
               page.drawText(locationValue, {
                 size: fontSize,
                 x: field.frame.x,
@@ -166,7 +185,7 @@ const useSignPdf = () => {
   
 
   const handleSignPdf = useCallback(
-    async (pdfData, signData, uri, signature) => {
+    async (pdfData, signData, uri, signature,loca) => {
       const pdfBytes = await ReactNativeBlobUtil.fetch('GET', pdfData.url).then(
         res => res.data
       );
@@ -180,7 +199,7 @@ const useSignPdf = () => {
       
       const image = await pdfDoc.embedJpg(resizedImage?.base64);
       
-      return signPdf(pdfDoc, pdfData, image, signData, signature);
+      return signPdf(pdfDoc, pdfData, image, signData, signature,loca);
     },
     [signPdf]
   );

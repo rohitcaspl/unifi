@@ -228,7 +228,7 @@ const SigneeInformation = ({
             user_id: imageData.user_id,
             text: {},
             signature_type: toggleValue === 1 ? 'image' : 'video',
-          
+           
             photo_id: imageData.image_id,
             name: {}, // Use standardized keys (firstName, middleName, lastName)
             phone_number: mobile, // Key renamed to phone_number
@@ -244,28 +244,23 @@ const SigneeInformation = ({
         if (field.type === "NAME") {
           const fieldName = `name_${index}`;
           const fieldValue = formValues[fieldName];
-    
-          if (field.formats) {
-            // Map to standardized keys based on the field's format
-            if (field.formats.first_name) {
-              signData.users[0].name.firstName = fieldValue;
-            }
-            if (field.formats.middle_name) {
-              signData.users[0].name.middleName = fieldValue;
-            }
-            if (field.formats.last_name) {
-              signData.users[0].name.lastName = fieldValue;
-            }
+          const hasFormats = field.formats && Object.values(field.formats).some(val => val);
+      
+          if (hasFormats) {
+            // Assign individual name parts
+            if (field.formats.first_name) signData.users[0].name.firstName = fieldValue;
+            if (field.formats.middle_name) signData.users[0].name.middleName = fieldValue;
+            if (field.formats.last_name) signData.users[0].name.lastName = fieldValue;
+          } else {
+            // Save as a string when no formats are specified
+            signData.users[0].name = fieldValue;
           }
-        } else if (field.type === "TEXT") {
-          const fieldName = `text_${index}`;
-          signData.users[0].text[field.name] = formValues[fieldName];
         }
       });
     
       setShouldShowSpinner(true);
       try {
-        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature );
+        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature,formValues.location );
         await handleUpload(pdf, signData);
       } catch (err) {
         Sentry.captureException(err);
