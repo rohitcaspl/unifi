@@ -220,7 +220,8 @@ const SigneeInformation = ({
         project_id: pdfData.project_id,
         form_id: `${pdfData.project_id}_${pdfData.form_id}`,
         form_name: pdfData.form_name,
-        signed_doc_id: '', // Populated later
+        signed_doc_id: '',
+       // Populated later
         agentId: userData.data.data._id,
         formType: pdfData.form_type,
         users: [
@@ -260,7 +261,7 @@ const SigneeInformation = ({
     
       setShouldShowSpinner(true);
       try {
-        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature,formValues.location );
+        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature,formValues.location ,selectedSubject);
         await handleUpload(pdf, signData);
       } catch (err) {
         Sentry.captureException(err);
@@ -340,6 +341,8 @@ const SigneeInformation = ({
                     validations={{
                       required: { value: true, message: 'Please enter a location' },
                     }}
+                    customStyle={styles.locationInputContainer}
+                    customInputStyle={styles.locationInput}
                   />
                   <Pressable onPress={getUserLocation} style={styles.icon}>
                     <Location />
@@ -423,6 +426,7 @@ const SigneeInformation = ({
                     onPress={() => {
                       if (toggleValue === 1) navigation.navigate('SignatureScreen');
                       else if (toggleValue === 2 && hasPermission)
+                        console.log("camera launched");
                         navigation.navigate('CameraPage');
                     }}
                     imageUri={

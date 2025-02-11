@@ -14,7 +14,7 @@ const useSignPdf = () => {
   const { video } = useMediaContext();
 
   const signPdf = useCallback(
-    async (pdfDoc, pdfData, image, signData, signature,loca) => {
+    async (pdfDoc, pdfData, image, signData, signature,loca,selectsu) => {
       const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf';
       const fontBytes = await ReactNativeBlobUtil.fetch('GET', url).then(
         res => res.data
@@ -23,7 +23,10 @@ const useSignPdf = () => {
       const font = await pdfDoc.embedFont(fontBytes);
   console.log('adfData',pdfData);
   console.log('signdta',signData);
-      for (const subject of pdfData.subjects) {
+  const filteredSubjects = pdfData.subjects.filter(
+    subject => subject.title === selectsu
+  );
+      for (const subject of filteredSubjects) {
         for (const field of subject.pdf_fields) {
           const type = field.type.toLowerCase();
           const fontSize = 12;
@@ -185,7 +188,7 @@ const useSignPdf = () => {
   
 
   const handleSignPdf = useCallback(
-    async (pdfData, signData, uri, signature,loca) => {
+    async (pdfData, signData, uri, signature,loca,selectedsub) => {
       const pdfBytes = await ReactNativeBlobUtil.fetch('GET', pdfData.url).then(
         res => res.data
       );
@@ -199,7 +202,7 @@ const useSignPdf = () => {
       
       const image = await pdfDoc.embedJpg(resizedImage?.base64);
       
-      return signPdf(pdfDoc, pdfData, image, signData, signature,loca);
+      return signPdf(pdfDoc, pdfData, image, signData, signature,loca,selectedsub);
     },
     [signPdf]
   );

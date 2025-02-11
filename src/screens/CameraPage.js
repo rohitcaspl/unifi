@@ -37,7 +37,10 @@ const CameraPage = () => {
 
   const devices = useCameraDevices();
   const device = devices[cameraPosition];
-
+  useEffect(() => {
+    console.log('Available devices:', devices);
+    console.log('Selected device:', device);
+  }, [devices, device]);
   const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
   Reanimated.addWhitelistedNativeProps({
     zoom: true,
