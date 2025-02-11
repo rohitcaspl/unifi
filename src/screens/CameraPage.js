@@ -36,7 +36,9 @@ const CameraPage = () => {
   const zoom = useSharedValue(0);
 
   const devices = useCameraDevices();
-  const device = devices[cameraPosition];
+  const device = Array.isArray(devices)
+      ? devices.find((d) => d.position === cameraPosition) // Array format
+      : devices?.[cameraPosition]; // Object format (old behavior)
   useEffect(() => {
     console.log('Available devices:', devices);
     console.log('Selected device:', device);
