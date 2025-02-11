@@ -1,7 +1,7 @@
 import { RESULTS } from 'react-native-permissions';
 import permissions from '@shared/helpers/permissions';
 import { Platform } from 'react-native';
-import useAllowPermission from './useAllowPermission';
+import useAllowGalleryPermission from './useAllowGalleryPermission';
 
 const usePhotosPermission = () => {
   const modalText = {
@@ -14,7 +14,7 @@ const usePhotosPermission = () => {
     buttonPositive: Platform.OS === 'ios' ? 'Open Settings' : 'OK',
   };
   const { checkPermission: checkGalleryPermission, status } =
-    useAllowPermission(permissions.GALLERY, modalText);
+    useAllowGalleryPermission(permissions.GALLERY, modalText);
 
   return {
     isGalleryGranted: status === RESULTS.GRANTED,
