@@ -1,71 +1,39 @@
-require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+# Resolve react_native_pods.rb with node to allow for hoisting
 require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-
-# $RNFirebaseAsStaticFramework = true
-platform :ios, '15.1'
-install! 'cocoapods', :deterministic_uuids => false
-$VCEnableFrameProcessors = false
-# Convert all permission pods into static libraries
-pre_install do |installer|
-  Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
-
-  installer.pod_targets.each do |pod|
-    if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
-      def pod.build_type;
-        Pod::BuildType.static_library
-      end
-    end
-  end
-end
+platform :ios, min_ios_version_supported
+prepare_react_native_project!
+$RCTNewArchEnabled = ENV['RCT_NEW_ARCH_ENABLED'] == '1'
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+linkage = ENV['USE_FRAMEWORKS']
 
 target 'unifi' do
-  use_frameworks! :linkage => :static
-
-  
-  use_expo_modules!
-  
-  config = use_native_modules!
-  
-
-
-  # pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
-  # pod 'ReactCommon', :path => '../node_modules/react-native/ReactCommon'
-  # # pod 'react-native-worklets-core', :path => '../node_modules/react-native-worklets-core'
-  # pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi' # Add this
-  # pod 'React-hermes', :path => '../node_modules/react-native/ReactCommon/hermes' # If using Hermes
-
-  # Other dependencies...
-  # pod 'VisionCamera', :path => '../node_modules/react-native-vision-camera'
-  pod 'RNFlashList', :path => '../node_modules/@shopify/flash-list'
-
-
+  use_expo_modules!   
+  config = use_native_modules!   
   use_react_native!(
     :path => config[:reactNativePath],
-    :hermes_enabled => true,
-    :fabric_enabled => false,
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :hermes_enabled => true, 
+    :fabric_enabled => $RCTNewArchEnabled,
+    :new_arch_enabled => $RCTNewArchEnabled  
   )
-
+  # permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+  # pod 'react-native-permissions', :path => "#{permissions_path}/Camera.podspec"
   post_install do |installer|
     react_native_post_install(
       installer,
-      config[:reactNativePath],
-      :mac_catalyst_enabled => false
+      File.join(__dir__, '../node_modules/react-native'),
+      # :mac_catalyst_enabled => false,
+      # :hermes_enabled => true,
+      # :fabric_enabled => $RCTNewArchEnabled
     )
-    
     installer.pods_project.targets.each do |target|
-      if target.respond_to?(:product_type) && target.product_type == "com.apple.product-type.bundle"
+      if target.name == 'React-RCTFabric'
         target.build_configurations.each do |config|
-          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+          config.build_settings['OTHER_LDFLAGS'] = '-ld64'
         end
       end
     end
-
-    installer.pods_project.build_configurations.each do |config|
-      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
-    end
-    
-
   end
 end
