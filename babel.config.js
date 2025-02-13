@@ -24,7 +24,7 @@ module.exports = {
     // Load environment variables from .env files
     'module:react-native-dotenv',
     // Enable worklets for modules that require running code on a separate thread
-    ['react-native-worklets-core/plugin'],
+
     // Finally, include the Reanimated plugin (with processNestedWorklets enabled) last
     ['react-native-reanimated/plugin', { processNestedWorklets: true }],
   ],

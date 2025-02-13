@@ -16,8 +16,6 @@
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-native-clipboard/clipboard": "^1.16.1",
     "@react-native-community/netinfo": "^11.4.1",
-    "@react-native-firebase/app": "^21.7.1",
-    "@react-native-firebase/crashlytics": "^21.7.1",
     "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/elements": "^2.2.5",
@@ -30,9 +28,10 @@
     "axios": "^1.7.9",
     "babel-plugin-module-resolver": "^5.0.2",
     "date-fns": "^4.1.0",
-    "expo": "^52.0.28",
+    "expo": "^52.0.33",
     "expo-asset": "^11.0.3",
     "expo-blur": "^14.0.3",
+
     "expo-image": "^2.0.4",
     "expo-image-manipulator": "^13.0.6",
     "expo-location": "^18.0.5",
@@ -67,9 +66,7 @@
     "react-native-svg": "^15.11.1",
     "react-native-svg-transformer": "^1.5.0",
     "react-native-toast-notifications": "^3.4.0",
-    "react-native-vision-camera": "^4.6.3",
     "react-native-webview": "^13.13.1",
-    "react-native-worklets-core": "^1.5.0",
     "rn-sliding-up-panel": "^2.4.6"
   },
   "devDependencies": {
