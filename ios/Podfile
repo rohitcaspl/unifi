@@ -3,37 +3,53 @@ require_relative '../node_modules/react-native/scripts/react_native_pods'
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 $RCTNewArchEnabled = ENV['RCT_NEW_ARCH_ENABLED'] == '1'
+
+use_frameworks!:linkage => :static
+
+# Ensure Expo is correctly linked
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+
 linkage = ENV['USE_FRAMEWORKS']
 
-target 'unifi' do
-  use_expo_modules!   
-  config = use_native_modules!   
-  use_react_native!(
-    :path => config[:reactNativePath],
-    :app_path => "#{Pod::Config.instance.installation_root}/..",
-    :hermes_enabled => true, 
-    :fabric_enabled => $RCTNewArchEnabled,
-    :new_arch_enabled => $RCTNewArchEnabled  
-  )
-  # permissions_path = '../node_modules/react-native-permissions/ios'
-  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
-  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
-  # pod 'react-native-permissions', :path => "#{permissions_path}/Camera.podspec"
-  post_install do |installer|
-    react_native_post_install(
-      installer,
-      File.join(__dir__, '../node_modules/react-native'),
-      # :mac_catalyst_enabled => false,
-      # :hermes_enabled => true,
-      # :fabric_enabled => $RCTNewArchEnabled
-    )
-    installer.pods_project.targets.each do |target|
-      if target.name == 'React-RCTFabric'
-        target.build_configurations.each do |config|
-          config.build_settings['OTHER_LDFLAGS'] = '-ld64'
-        end
+# Apply Xcode 14.3 RC workaround if needed
+def __apply_Xcode_14_3_RC_post_install_workaround(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      current_target = config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+      minimum_target = min_ios_version_supported
+      if current_target.to_f < minimum_target.to_f
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = minimum_target
       end
     end
+  end
+end
+
+target 'unifi' do
+  # If you're using Expo, you can keep `use_expo_modules!`
+  use_expo_modules!   # Make sure this line is valid; Expo should be installed in your project
+  
+  config = use_native_modules!   
+  
+  use_react_native!(
+    :path => '../node_modules/react-native',  # Explicitly set correct path for React Native
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :hermes_enabled => false, 
+    :fabric_enabled => true,
+    :new_arch_enabled => false 
+  )
+  
+  # Add React Native dependencies explicitly
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  post_install do |installer|
+    # React Native post-install setup
+    react_native_post_install(
+      installer,
+      :mac_catalyst_enabled => false,
+    )
+    
+    # Apply workaround for Xcode 14.3 RC if necessary
+    __apply_Xcode_14_3_RC_post_install_workaround(installer)
   end
 end
