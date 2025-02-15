@@ -1,12 +1,12 @@
 PODS:
   - boost (1.84.0)
   - DoubleConversion (1.1.6)
-  - EXConstants (17.0.5):
+  - EXConstants (17.0.6):
     - ExpoModulesCore
   - EXImageLoader (5.0.0):
     - ExpoModulesCore
     - React-Core
-  - Expo (52.0.33):
+  - Expo (52.0.35):
     - ExpoModulesCore
   - ExpoAsset (11.0.3):
     - ExpoModulesCore
@@ -30,7 +30,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLocation (18.0.6):
     - ExpoModulesCore
-  - ExpoModulesCore (2.2.1):
+  - ExpoModulesCore (2.2.2):
     - DoubleConversion
     - glog
     - RCT-Folly (= 2024.11.18.00)
@@ -2112,9 +2112,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
-  EXConstants: e25c3f3ef5d1cf7a6ef911ebf7a3ab94d8d06d82
+  EXConstants: f5c27bfa40ba650257535ab958f4f5876ee93edd
   EXImageLoader: e5da974e25b13585c196b658a440720c075482d5
-  Expo: ad550eed41b5b0013d2a1b793fd33b6958a1b16f
+  Expo: 24e21e782c2858eae363d3597ea945751e5af078
   ExpoAsset: 715ce37a36951fee71c32773b3be50f2285e2fbe
   ExpoBlur: 392c1207f71d0ecf22371621c1fbd44ba84d9742
   ExpoFileSystem: 5df53001901f76b493bd5deb75ac506871cc9b2e
@@ -2123,7 +2123,7 @@ SPEC CHECKSUMS:
   ExpoImageManipulator: 4aca9cc1d84e31f62a7e8075c19026d3ad62f852
   ExpoKeepAwake: 62ff49bbc3bff90d8ee28329190f9ba371bf88e7
   ExpoLocation: 350b114ad54777187cf83c88bb4713101cbab6cf
-  ExpoModulesCore: c0427a93bed8330c4a03da88423868d91c8f509a
+  ExpoModulesCore: 09e06673f75585557dc7e5e401ff4a4974c043ef
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 2bc03a5cf64e29c611bbc5d7eb9d9f7431f37ee6
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
