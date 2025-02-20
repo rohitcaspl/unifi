@@ -14,7 +14,7 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8BEC391F1F1A40DEAABBE0AD /* DMSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43BDD935C42E4D82A927E033 /* DMSans-Bold.ttf */; };
-		ADBCF45ABEE5D9E03F18B229 /* Pods_unifi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D637EED4B487F8C9645D012 /* Pods_unifi.framework */; };
+		CB8F27EB132325DA508FCE21 /* Pods_unifi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFB413C3C210E3A812CC9C6 /* Pods_unifi.framework */; };
 		E40276332EDF733916EEE36A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -28,14 +28,14 @@
 		1D4E4E3E2D5D80A0004E5216 /* React.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = React.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D58B68E2D5DC87F00287287 /* React.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = React.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D58B6902D5DC88800287287 /* CoreModules.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CoreModules.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D637EED4B487F8C9645D012 /* Pods_unifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_unifi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E01CEAC4AD04BA810BC02EB /* Pods-unifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-unifi.release.xcconfig"; path = "Target Support Files/Pods-unifi/Pods-unifi.release.xcconfig"; sourceTree = "<group>"; };
 		43BDD935C42E4D82A927E033 /* DMSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Bold.ttf"; path = "../src/assets/fonts/DMSans-Bold.ttf"; sourceTree = "<group>"; };
 		5B2B959582E18585F64094CC /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-unifi/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		6AFB413C3C210E3A812CC9C6 /* Pods_unifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_unifi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = unifi/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = unifi/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		92072D13027991A16353E86A /* Pods-unifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-unifi.release.xcconfig"; path = "Target Support Files/Pods-unifi/Pods-unifi.release.xcconfig"; sourceTree = "<group>"; };
 		B1C615961C0442AA867BA120 /* DMSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Regular.ttf"; path = "../src/assets/fonts/DMSans-Regular.ttf"; sourceTree = "<group>"; };
-		D3442BA17347E49C82C88087 /* Pods-unifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-unifi.debug.xcconfig"; path = "Target Support Files/Pods-unifi/Pods-unifi.debug.xcconfig"; sourceTree = "<group>"; };
+		BF1BB96508A0F47F4FA7F546 /* Pods-unifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-unifi.debug.xcconfig"; path = "Target Support Files/Pods-unifi/Pods-unifi.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,7 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D58B68F2D5DC87F00287287 /* React.framework in Frameworks */,
-				ADBCF45ABEE5D9E03F18B229 /* Pods_unifi.framework in Frameworks */,
+				CB8F27EB132325DA508FCE21 /* Pods_unifi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +71,7 @@
 				1D4CE4472D5DC0E90053C5EC /* libExpo.a */,
 				1D4E4E3E2D5D80A0004E5216 /* React.framework */,
 				1D4E4E3C2D5D808B004E5216 /* CoreModules.framework */,
-				3D637EED4B487F8C9645D012 /* Pods_unifi.framework */,
+				6AFB413C3C210E3A812CC9C6 /* Pods_unifi.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,8 +127,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D3442BA17347E49C82C88087 /* Pods-unifi.debug.xcconfig */,
-				92072D13027991A16353E86A /* Pods-unifi.release.xcconfig */,
+				BF1BB96508A0F47F4FA7F546 /* Pods-unifi.debug.xcconfig */,
+				1E01CEAC4AD04BA810BC02EB /* Pods-unifi.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -148,13 +148,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "unifi" */;
 			buildPhases = (
-				E28B6467082B2511E620EDD4 /* [CP] Check Pods Manifest.lock */,
+				CA1871067BA1A76B45C67DFE /* [CP] Check Pods Manifest.lock */,
 				9423FC745D009E534BC2E929 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				8C9653B7EC40EFC489792164 /* [CP] Copy Pods Resources */,
+				1211774EA6B1B1EFE69F8F06 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -228,7 +228,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		8C9653B7EC40EFC489792164 /* [CP] Copy Pods Resources */ = {
+		1211774EA6B1B1EFE69F8F06 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -264,7 +264,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-unifi/expo-configure-project.sh\"\n";
 		};
-		E28B6467082B2511E620EDD4 /* [CP] Check Pods Manifest.lock */ = {
+		CA1871067BA1A76B45C67DFE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -303,7 +303,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3442BA17347E49C82C88087 /* Pods-unifi.debug.xcconfig */;
+			baseConfigurationReference = BF1BB96508A0F47F4FA7F546 /* Pods-unifi.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -472,7 +472,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92072D13027991A16353E86A /* Pods-unifi.release.xcconfig */;
+			baseConfigurationReference = 1E01CEAC4AD04BA810BC02EB /* Pods-unifi.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

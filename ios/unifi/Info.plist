@@ -33,6 +33,9 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+<string>This app requires camera access to capture photos.</string>
+
 	<key>UIAppFonts</key>
 	<array>
 		<string>DMSans-Bold.ttf</string>

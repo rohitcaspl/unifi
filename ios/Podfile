@@ -1,7 +1,24 @@
 # Resolve react_native_pods.rb with node to allow for hoisting
-require_relative '../node_modules/react-native/scripts/react_native_pods'
+def node_require(script) 
+  require Pod::Executable.execute_command('node', ['-p',
+    "require.resolve(
+      '#{script}',
+      {paths: [process.argv[1]]}
+    )",__dir__]).strip 
+end
+node_require('react-native/scripts/react_native_pods.rb')
+node_require('react-native-permissions/scripts/setup.rb')
+
+
+
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
+setup_permissions([
+  'Camera',
+  'LocationWhenInUse',
+  'LocationAlways'
+])
+
 $RCTNewArchEnabled = ENV['RCT_NEW_ARCH_ENABLED'] == '1'
 
 use_frameworks!:linkage => :static
@@ -10,6 +27,18 @@ use_frameworks!:linkage => :static
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 
 linkage = ENV['USE_FRAMEWORKS']
+def node_require(script)
+    # Resolve script with node to allow for hoisting
+     require Pod::Executable.execute_command('node', ['-p',
+       "require.resolve('#{script}',{paths: [process.argv[1]]},)",__dir__]).strip
+end
+  
+node_require('react-native/scripts/react_native_pods.rb')
+node_require('react-native-permissions/scripts/setup.rb') 
+setup_permissions([
+  'Camera',
+  'PhotoLibrary',
+])
 
 # Apply Xcode 14.3 RC workaround if needed
 def __apply_Xcode_14_3_RC_post_install_workaround(installer)

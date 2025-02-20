@@ -1,22 +1,22 @@
 PODS:
   - boost (1.84.0)
   - DoubleConversion (1.1.6)
-  - EXConstants (17.0.6):
+  - EXConstants (17.0.7):
     - ExpoModulesCore
   - EXImageLoader (5.0.0):
     - ExpoModulesCore
     - React-Core
-  - Expo (52.0.35):
+  - Expo (52.0.36):
     - ExpoModulesCore
-  - ExpoAsset (11.0.3):
+  - ExpoAsset (11.0.4):
     - ExpoModulesCore
   - ExpoBlur (14.0.3):
     - ExpoModulesCore
-  - ExpoFileSystem (18.0.10):
+  - ExpoFileSystem (18.0.11):
     - ExpoModulesCore
-  - ExpoFont (13.0.3):
+  - ExpoFont (13.0.4):
     - ExpoModulesCore
-  - ExpoImage (2.0.5):
+  - ExpoImage (2.0.6):
     - ExpoModulesCore
     - libavif/libdav1d
     - SDWebImage (~> 5.19.1)
@@ -26,9 +26,9 @@ PODS:
     - EXImageLoader
     - ExpoModulesCore
     - SDWebImageWebPCoder
-  - ExpoKeepAwake (14.0.2):
+  - ExpoKeepAwake (14.0.3):
     - ExpoModulesCore
-  - ExpoLocation (18.0.6):
+  - ExpoLocation (18.0.7):
     - ExpoModulesCore
   - ExpoModulesCore (2.2.2):
     - DoubleConversion
@@ -1717,7 +1717,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (4.6.0):
+  - RNScreens (4.8.0):
     - DoubleConversion
     - glog
     - RCT-Folly (= 2024.11.18.00)
@@ -1761,7 +1761,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - Sentry/HybridSDK (= 8.44.0)
     - Yoga
-  - RNShare (12.0.7):
+  - RNShare (12.0.9):
     - DoubleConversion
     - glog
     - RCT-Folly (= 2024.11.18.00)
@@ -2112,17 +2112,17 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
-  EXConstants: f5c27bfa40ba650257535ab958f4f5876ee93edd
+  EXConstants: 30c43b9ca8391c31bab9cc45c97f16eddcf11042
   EXImageLoader: e5da974e25b13585c196b658a440720c075482d5
-  Expo: 24e21e782c2858eae363d3597ea945751e5af078
-  ExpoAsset: 715ce37a36951fee71c32773b3be50f2285e2fbe
+  Expo: 761b71aa05939776b5ad3ee934619a6957bfe496
+  ExpoAsset: 4033893dfb333b444bf45e951351254137b658d5
   ExpoBlur: 392c1207f71d0ecf22371621c1fbd44ba84d9742
-  ExpoFileSystem: 5df53001901f76b493bd5deb75ac506871cc9b2e
-  ExpoFont: 38656978c2a4022fb7e0c43e4968d66340f5e2f3
-  ExpoImage: 5d5e8b6dac825198fa38295b7da8d405657d0a2f
+  ExpoFileSystem: 2d804c73034c0d65eb2a640e0a77627033b69edc
+  ExpoFont: f354e926f8feae5e831ec8087f36652b44a0b188
+  ExpoImage: c6d1f54445f38766650052aedf5396a74bb96fff
   ExpoImageManipulator: 4aca9cc1d84e31f62a7e8075c19026d3ad62f852
-  ExpoKeepAwake: 62ff49bbc3bff90d8ee28329190f9ba371bf88e7
-  ExpoLocation: 350b114ad54777187cf83c88bb4713101cbab6cf
+  ExpoKeepAwake: b0171a73665bfcefcfcc311742a72a956e6aa680
+  ExpoLocation: ab3b9fc6d87d05a13e7a254f2c42609031fe18b7
   ExpoModulesCore: 09e06673f75585557dc7e5e401ff4a4974c043ef
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 2bc03a5cf64e29c611bbc5d7eb9d9f7431f37ee6
@@ -2203,11 +2203,11 @@ SPEC CHECKSUMS:
   RNDeviceInfo: d863506092aef7e7af3a1c350c913d867d795047
   RNFlashList: ada9dc1919bfc1bb01661b39dd00cfaa83f838b2
   RNGestureHandler: d49a3b77bae86b2f5c373188ddd7fcca1a04757b
-  RNPermissions: 92fa8c09d19da18e4f5e55971d666e1a2d1f480a
+  RNPermissions: 220efd188af784f4ec823059938a770168179eed
   RNReanimated: a505621a7c5b86ecc19666c022097cf8f0b91ebe
-  RNScreens: dc726efcdbb33e3f91edf2fa1f6e848b17b5dc6b
+  RNScreens: 2287f895921671b732cddcdd8d876aa4d444f690
   RNSentry: ebc6e220f52c5762dd3b20ac1779eb5c275a61fa
-  RNShare: 353420a166393580712187f426dedc2c386a169a
+  RNShare: 194812445e97d161c7a2cee1d98bc4a3dffdce3b
   RNSVG: 4903d466c3a877644d5219dbc1d97f9ef9e4a3cc
   SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
   SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
@@ -2217,6 +2217,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 93a4c16be50e6f29a7ef8e2b19505d7857c651fb
 
-PODFILE CHECKSUM: 105260b73c338493dde52fbbb5a4446a7efa1191
+PODFILE CHECKSUM: 95835f872aaec087a3d277e6c4d8efc22890111e
 
 COCOAPODS: 1.15.2
