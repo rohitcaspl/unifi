@@ -16,7 +16,8 @@ prepare_react_native_project!
 setup_permissions([
   'Camera',
   'LocationWhenInUse',
-  'LocationAlways'
+  'LocationAlways',  
+  'Microphone',
 ])
 
 $RCTNewArchEnabled = ENV['RCT_NEW_ARCH_ENABLED'] == '1'

@@ -203,41 +203,41 @@ const _CameraButton = ({
   }, [enabled, isPressingButton]);
 
   return (
-    <TapGestureHandler
-      enabled={enabled}
-      ref={tapHandler}
-      onHandlerStateChange={onHandlerStateChanged}
-      shouldCancelWhenOutside={false}
-      maxDurationMs={99999999}
-      simultaneousHandlers={panHandler}
-    >
-      <Reanimated.View {...props} style={[buttonStyle, style]}>
-        <PanGestureHandler
-          enabled={enabled}
-          ref={panHandler}
-          failOffsetX={PAN_GESTURE_HANDLER_FAIL_X}
-          activeOffsetY={PAN_GESTURE_HANDLER_ACTIVE_Y}
-          onGestureEvent={onPanGestureEvent}
-          simultaneousHandlers={tapHandler}
-        >
-          <Reanimated.View style={styles.flex}>
-            <Reanimated.View style={[styles.shadow, shadowStyle]} />
-            <View style={styles.button} />
-          </Reanimated.View>
-        </PanGestureHandler>
-      </Reanimated.View>
-    </TapGestureHandler>
+    <View style={styles.container}>
+      <TouchableOpacity 
+        style={[styles.button, isRecording ? styles.recordingButton : null]}
+        onPress={isRecording ? onStopPress : onStartPress}
+      >
+        <View style={[styles.innerCircle, isRecording ? styles.recordingInner : null]} />
+      </TouchableOpacity>
+    </View>
   );
+
 };
 
 const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  shadow: {
-    position: 'absolute',
-    width: 78,
-    height: 78,
+  button: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#ffffff80',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#fff',
+  },
+  recordingButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  innerCircle: {
+    width: 60,
+    height: 60,
     borderRadius: 78 / 2,
     backgroundColor: colors.recordingRed,
   },

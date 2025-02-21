@@ -49,6 +49,8 @@
 	</array>
 		<key>NSPhotoLibraryUsageDescription</key>
 	<string>App needs to Access your photo gallery</string>
+	  <key>NSMicrophoneUsageDescription</key>
+  <string>App needs to Access your Microphone</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
