@@ -2,9 +2,10 @@
  * @format
  */
 import 'react-native-gesture-handler';
-
+import { Platform, AppRegistry } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { AppRegistry } from 'react-native';
+
+process.env.EXPO_OS = Platform.OS;
 
 import App from './src/App';
 import { name as appName } from './app.json';

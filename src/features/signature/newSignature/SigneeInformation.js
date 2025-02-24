@@ -424,10 +424,12 @@ const SigneeInformation = ({
                     }
                     isSignature={toggleValue === 1}
                     onPress={() => {
-                      if (toggleValue === 1) navigation.navigate('SignatureScreen');
-                      else if (toggleValue === 2 && hasPermission)
+                      if (toggleValue === 1) {
+                        navigation.navigate('SignatureScreen');
+                      } else if (toggleValue === 2 && hasPermission) {
                         console.log("camera launched");
                         navigation.navigate('CameraPage');
+                      }
                     }}
                     imageUri={
                       toggleValue === 1

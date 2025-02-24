@@ -39,6 +39,9 @@ node_require('react-native-permissions/scripts/setup.rb')
 setup_permissions([
   'Camera',
   'PhotoLibrary',
+  'LocationWhenInUse',
+  'LocationAlways',  
+  'Microphone',
 ])
 
 # Apply Xcode 14.3 RC workaround if needed
