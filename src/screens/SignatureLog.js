@@ -37,7 +37,7 @@ const SignatureLog = () => {
                 onChange={setProjectFilter}
                 selected={filterData.project}
                 labelKey='project_name'
-                placeholder='Choose project name'
+                placeholder='Choose project'
               />
               <Filter
                 data={formsFilters}

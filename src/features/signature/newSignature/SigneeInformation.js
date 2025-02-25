@@ -49,11 +49,12 @@ const SigneeInformation = ({
   pdfData,
   setCurrentStep,
   setNextTitle,
-}) => {  console.log('mydata',pdfData);
+}) => {  
   const { userData } = useAuthContext();
   const [toggleValue, setToggleValue] = useState(onlyVideoConsent ? 2 : 1);
   const { isCameraGranted, checkCameraPermission } = useCameraPermission();
   const [hasPermission, setHasPermission] = useState(false);
+
   const [thumbnail, setThumbnail] = useState(null);
   const [formFields, setFormFields] = useState([]);
   const [mobile, setMobile] = useState(null);
@@ -100,7 +101,7 @@ const SigneeInformation = ({
     onSuccess: () => {
       setShouldShowSpinner(false);
       queryClient.invalidateQueries({ queryKey: ['signatures'] });
-      console.log("damns its done");
+
       navigation.navigate('SuccessModal', { signedPdf: signedPdf });
     },
     onError: err => {
