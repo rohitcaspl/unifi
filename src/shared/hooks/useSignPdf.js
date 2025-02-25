@@ -23,9 +23,12 @@ const useSignPdf = () => {
       const font = await pdfDoc.embedFont(fontBytes);
   console.log('adfData',pdfData);
   console.log('signdta',signData);
-  const filteredSubjects = pdfData.subjects.filter(
-    subject => subject.title === selectsu
-  );
+  let filteredSubjects;
+  if (signData.form_type === 'multiple_subject') {
+    filteredSubjects = pdfData.subjects.filter(subject => subject.title === selectsu);
+  } else {
+    filteredSubjects = pdfData.subjects;
+  }
       for (const subject of filteredSubjects) {
         for (const field of subject.pdf_fields) {
           const type = field.type.toLowerCase();
