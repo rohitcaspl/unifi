@@ -24,7 +24,7 @@ const useSignPdf = () => {
   console.log('adfData',pdfData);
   console.log('signdta',signData);
   let filteredSubjects;
-  if (signData.form_type === 'multiple_subject') {
+  if (signData.formType === 'multiple_subject') {
     filteredSubjects = pdfData.subjects.filter(subject => subject.title === selectsu);
   } else {
     filteredSubjects = pdfData.subjects;
