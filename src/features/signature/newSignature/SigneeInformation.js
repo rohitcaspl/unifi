@@ -12,6 +12,7 @@ import Location from '@assets/icons/location.svg';
 import SignatureIcon from '@assets/icons/signature.svg';
 import VideoIcon from '@assets/icons/video-consent.svg';
 
+
 import Button from '@components/Button/Button';
 import CustomSwitch from '@components/CustomSwitch';
 import CustomText from '@components/CustomText';
@@ -20,6 +21,7 @@ import MediaContainer from '@components/MediaContainer';
 import SpinnerModal from '@components/SpinnerModal';
 import CustomModalDropdown from '@components/CustomModalDropdown';
 import TextField from '@components/TextField';
+
 
 import colors from '@theme/colors';
 import { LOCATION_VALUES, NEW_SIGNATURE_STEPS } from '@shared/constants';
@@ -31,6 +33,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMediaContext } from 'context/MediaContext';
 import { useAuthContext } from 'context/AuthContext';
 
+
 import {
   useCreateDoc,
   useUploadSignature,
@@ -41,6 +44,7 @@ import useCameraPermission from '@shared/hooks/useCameraPermission';
 import useLocationPermission from '@shared/hooks/useLocationPermission';
 import useMicrophonePermission from '@shared/hooks/useMicrophonePermission';
 import useSignPdf from '@shared/hooks/useSignPdf';
+
 
 const SigneeInformation = ({
   imageData,
@@ -55,6 +59,7 @@ const SigneeInformation = ({
   const { isCameraGranted, checkCameraPermission } = useCameraPermission();
   const [hasPermission, setHasPermission] = useState(false);
 
+
   const [thumbnail, setThumbnail] = useState(null);
   const [formFields, setFormFields] = useState([]);
   const [mobile, setMobile] = useState(null);
@@ -65,7 +70,7 @@ const SigneeInformation = ({
   const [subjectOptions, setSubjectOptions] = useState([]);
   const { isMicrophoneGranted, checkMicrophonePermission } =
     useMicrophonePermission();
-  
+ 
   useEffect(() => {
     const handleVideo = async () => {
       if (video) {
@@ -73,9 +78,12 @@ const SigneeInformation = ({
           const videoResp = await fetch(video.path);
           const videoData = videoResp.blob();
 
+
           const videoSlot = await createVideo();
 
+
           await uploadVideo({ url: videoSlot.url, data: videoData });
+
 
           setVideoId(videoSlot.id);
         } catch (err) {
@@ -85,8 +93,10 @@ const SigneeInformation = ({
       }
     };
 
+
     handleVideo();
   }, [video, createVideo, uploadVideo, setVideoId]);
+
 
   const phoneRef = useRef(null);
   const navigation = useNavigation();
@@ -101,6 +111,7 @@ const SigneeInformation = ({
     onSuccess: () => {
       setShouldShowSpinner(false);
       queryClient.invalidateQueries({ queryKey: ['signatures'] });
+
 
       navigation.navigate('SuccessModal', { signedPdf: signedPdf });
     },
@@ -124,7 +135,9 @@ const SigneeInformation = ({
     email: getValues('email') || '',
     phone: getValues('phone') || '',
     signature: '',
+    text: {},
   });
+
 
   const {
     handleSubmit,
@@ -137,7 +150,7 @@ const SigneeInformation = ({
       !isLocationGranted && checkLocationPermission();
       try {
         const [location] = await getCurrentLocation();
-  
+ 
         let value = '';
         Object.keys(location).map(key => {
           if (LOCATION_VALUES.includes(key)) {
@@ -161,7 +174,7 @@ const SigneeInformation = ({
           setMobile(signeeData.mobile);
         }
       };
-  
+ 
       fetchSigneeData();
     }, []);
     useEffect(() => {
@@ -181,6 +194,7 @@ const SigneeInformation = ({
     if (toggleValue === 2) {
       checkCameraPermission();
       checkMicrophonePermission();
+
 
       setHasPermission(isCameraGranted && isMicrophoneGranted);
     }
@@ -207,15 +221,15 @@ const SigneeInformation = ({
         setThumbnail(res.path);
       });
     };
-    
+   
     useEffect(() => {
       video ? generateThumbnail(video.path) : setThumbnail();
     }, [video]);
-  
+ 
     const onSubmit = async () => {
       const formValues = getThirdStepValues();
-      
-    
+     
+   
       // Dynamically construct the signData object
       const signData = {
         project_id: pdfData.project_id,
@@ -228,7 +242,7 @@ const SigneeInformation = ({
         users: [
           {
             user_id: imageData.user_id,
-            text: {},
+            text: formValues.text || {},
             signature_type: toggleValue === 1 ? 'image' : 'video',
            
             photo_id: imageData.image_id,
@@ -240,14 +254,14 @@ const SigneeInformation = ({
           },
         ],
       };
-    
+   
       // Populate NAME fields using standardized keys
       formFields.forEach((field, index) => {
         if (field.type === "NAME") {
           const fieldName = `name_${index}`;
           const fieldValue = formValues[fieldName];
           const hasFormats = field.formats && Object.values(field.formats).some(val => val);
-      
+     
           if (hasFormats) {
             // Assign individual name parts
             if (field.formats.first_name) signData.users[0].name.firstName = fieldValue;
@@ -258,8 +272,19 @@ const SigneeInformation = ({
             signData.users[0].name = fieldValue;
           }
         }
+        else if (field.type === "TEXT") {
+          const fieldName = `text_${index}`;
+          const fieldValue = formValues[fieldName];
+          // Use original field name as key without sanitization
+          const fieldKey = field.name; 
+          signData.users[0].text[fieldKey] = fieldValue;
+          
+          console.log(`Text input for ${field.name}:`, fieldValue);
+      
+// Initialize each text field
+        }
       });
-    
+   
       setShouldShowSpinner(true);
       try {
         const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature,formValues.location ,selectedSubject);
@@ -278,12 +303,14 @@ const SigneeInformation = ({
       const data = await pdfResp.blob();
       await uploadSignature({ url: docSlot.url, data: data });
 
+
       // Update signData with the signed_doc_id
       signData.signed_doc_id = docSlot.id;
       await postSignature(signData);
     },
     [createDoc, uploadSignature, postSignature],
   );
+
 
   return (
     <>
@@ -464,6 +491,7 @@ const SigneeInformation = ({
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
@@ -529,6 +557,7 @@ const styles = StyleSheet.create({
   },
 });
 
+
 SigneeInformation.propTypes = {
   setCurrentStep: PropTypes.func,
   setNextTitle: PropTypes.func,
@@ -554,4 +583,6 @@ SigneeInformation.propTypes = {
   }),
 };
 
+
 export default SigneeInformation;
+

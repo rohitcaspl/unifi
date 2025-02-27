@@ -127,6 +127,7 @@ const useSignPdf = () => {
                 font: font,
               });
               break;
+            
             }
             case 'phone': {
               const phoneValue = signData.users[0].phone_number || '';

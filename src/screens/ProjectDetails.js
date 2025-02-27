@@ -14,6 +14,7 @@ import { formatDate } from '@shared/helpers';
 import { useNavigation } from '@react-navigation/native';
 
 const ProjectDetails = ({ route }) => {
+  console.log("new route data" ,route.agents); 
   const [formSort, setFormSort] = useState(CUSTOM_SORT_OPTIONS[0].value);
   const [mappedData, setMappedData] = useState([]);
 
