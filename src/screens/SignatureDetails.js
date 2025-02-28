@@ -18,6 +18,7 @@ const imageDimension = screenWidth * 0.15;
 
 const SignatureDetails = ({ route }) => {
   const { signature } = route.params;
+  console.log("previuew", signature);
   const { bottom } = useSafeAreaInsets();
 
   const { isConnected } = useNetInfo();
@@ -60,7 +61,7 @@ const SignatureDetails = ({ route }) => {
           <View style={styles.mb}>
             <SignatureDetailsItem
               value={formatDate(new Date(signature.date))}
-              placeholder={'Signing date'}
+              placeholder={'Completed date'}
             />
           </View>
           <View style={styles.mb}>

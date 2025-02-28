@@ -65,7 +65,7 @@ const FormDetails = ({ route }) => {
   const filterData = { form: form, project: { _id: projectId } };
   useEffect(() => {
     const fetchFormDetails = async () => {
-      console.log('Fetching form23454 details');
+
       setIsLoading(true);
       try {
       
@@ -139,12 +139,12 @@ const FormDetails = ({ route }) => {
                   <CustomText size={16}>{form.language}</CustomText>
                 </View>
                 <View style={styles.cont}>
-                  <CustomText style={styles.subtitle}>Signatures</CustomText>
+                  <CustomText style={styles.subtitle}>Consents</CustomText>
                   <CustomText size={16}>{signatureCount}</CustomText>
                 </View>
               </View>
               <View style={styles.wrapper}>
-                <CustomText bold>Signatures</CustomText>
+                <CustomText bold>Consents</CustomText>
                 <CustomModalDropdown
                   icon={SortIcon}
                   options={SIGNATURE_SORT_OPTIONS}

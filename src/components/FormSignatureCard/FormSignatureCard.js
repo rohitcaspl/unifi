@@ -24,7 +24,7 @@ const FormSignatureCard = ({ item, onPress }) => {
             <CustomText style={styles.date} bold>
               {item.name}
             </CustomText>{' '}
-            <CustomText style={styles.signed}>signed </CustomText>"
+            <CustomText style={styles.signed}>completed </CustomText>"
             {item.form_name}".{' '}
           </CustomText>
           <CustomText style={styles.date}>{formatDate(item.date)}</CustomText>

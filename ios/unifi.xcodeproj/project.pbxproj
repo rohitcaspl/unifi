@@ -10,11 +10,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		1D58B68F2D5DC87F00287287 /* React.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D58B68E2D5DC87F00287287 /* React.framework */; };
 		2005A33722684F2589ECE52F /* DMSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1C615961C0442AA867BA120 /* DMSans-Regular.ttf */; };
-		30E885B9FDDF33CE931B1C61 /* Pods_unifi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 641AA57E2F5A1F9C4CF10230 /* Pods_unifi.framework */; };
 		5091F5439EB4677F5360F9E3 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2B959582E18585F64094CC /* ExpoModulesProvider.swift */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8BEC391F1F1A40DEAABBE0AD /* DMSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43BDD935C42E4D82A927E033 /* DMSans-Bold.ttf */; };
+		9533AF704063090561B5DE86 /* Pods_unifi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD911AB79DB55EF17B34F3D2 /* Pods_unifi.framework */; };
 		E40276332EDF733916EEE36A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -28,13 +28,13 @@
 		1D4E4E3E2D5D80A0004E5216 /* React.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = React.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D58B68E2D5DC87F00287287 /* React.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = React.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D58B6902D5DC88800287287 /* CoreModules.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CoreModules.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		28D4E1838FD43300F793D653 /* Pods-unifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-unifi.release.xcconfig"; path = "Target Support Files/Pods-unifi/Pods-unifi.release.xcconfig"; sourceTree = "<group>"; };
 		43BDD935C42E4D82A927E033 /* DMSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Bold.ttf"; path = "../src/assets/fonts/DMSans-Bold.ttf"; sourceTree = "<group>"; };
+		4B204F99AD809FDA31ED400E /* Pods-unifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-unifi.debug.xcconfig"; path = "Target Support Files/Pods-unifi/Pods-unifi.debug.xcconfig"; sourceTree = "<group>"; };
 		5B2B959582E18585F64094CC /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-unifi/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		641AA57E2F5A1F9C4CF10230 /* Pods_unifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_unifi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68095158B2BCA38753DE2BC9 /* Pods-unifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-unifi.release.xcconfig"; path = "Target Support Files/Pods-unifi/Pods-unifi.release.xcconfig"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = unifi/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = unifi/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8B9AC8EE3660463B3276C664 /* Pods-unifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-unifi.debug.xcconfig"; path = "Target Support Files/Pods-unifi/Pods-unifi.debug.xcconfig"; sourceTree = "<group>"; };
+		AD911AB79DB55EF17B34F3D2 /* Pods_unifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_unifi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1C615961C0442AA867BA120 /* DMSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Regular.ttf"; path = "../src/assets/fonts/DMSans-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -44,7 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D58B68F2D5DC87F00287287 /* React.framework in Frameworks */,
-				30E885B9FDDF33CE931B1C61 /* Pods_unifi.framework in Frameworks */,
+				9533AF704063090561B5DE86 /* Pods_unifi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +71,7 @@
 				1D4CE4472D5DC0E90053C5EC /* libExpo.a */,
 				1D4E4E3E2D5D80A0004E5216 /* React.framework */,
 				1D4E4E3C2D5D808B004E5216 /* CoreModules.framework */,
-				641AA57E2F5A1F9C4CF10230 /* Pods_unifi.framework */,
+				AD911AB79DB55EF17B34F3D2 /* Pods_unifi.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,8 +127,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8B9AC8EE3660463B3276C664 /* Pods-unifi.debug.xcconfig */,
-				28D4E1838FD43300F793D653 /* Pods-unifi.release.xcconfig */,
+				4B204F99AD809FDA31ED400E /* Pods-unifi.debug.xcconfig */,
+				68095158B2BCA38753DE2BC9 /* Pods-unifi.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -148,13 +148,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "unifi" */;
 			buildPhases = (
-				59BD115DA301628963636CD2 /* [CP] Check Pods Manifest.lock */,
+				87AFC98AC444558240341387 /* [CP] Check Pods Manifest.lock */,
 				9423FC745D009E534BC2E929 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				A3F0F6DB7F72ACC2CF155B13 /* [CP] Copy Pods Resources */,
+				F91FD21D4CE50356D78B2976 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -228,7 +228,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		59BD115DA301628963636CD2 /* [CP] Check Pods Manifest.lock */ = {
+		87AFC98AC444558240341387 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -269,7 +269,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-unifi/expo-configure-project.sh\"\n";
 		};
-		A3F0F6DB7F72ACC2CF155B13 /* [CP] Copy Pods Resources */ = {
+		F91FD21D4CE50356D78B2976 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -303,7 +303,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B9AC8EE3660463B3276C664 /* Pods-unifi.debug.xcconfig */;
+			baseConfigurationReference = 4B204F99AD809FDA31ED400E /* Pods-unifi.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -472,7 +472,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 28D4E1838FD43300F793D653 /* Pods-unifi.release.xcconfig */;
+			baseConfigurationReference = 68095158B2BCA38753DE2BC9 /* Pods-unifi.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
