@@ -21,7 +21,7 @@ const SignatureCard = ({ item, onPress }) => {
   const navigation = useNavigation();
 
   const formattedDate = item.date ? formatDate(new Date(item.date)) : "N/A";
-console.log('dtae',item);
+
   return (
     <View style={styles.container}>
       <Pressable style={styles.wrapper} onPress={onPress}>

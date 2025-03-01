@@ -26,7 +26,7 @@ const SignatureLog = () => {
     filterData,
     sort,
   } = useFilterSignatures();
-  console.log('SignatureLog -> filterData', filterData);
+ 
   return (
     <Layout defaultNav>
       {filterData?.project ? (

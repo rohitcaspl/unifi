@@ -51,7 +51,7 @@ const FormDetails = ({ route }) => {
   const navigation = useNavigation();
 
   const { bottom } = useSafeAreaInsets();
-console.log("not funny",route);
+
   const FooterComponent = () => (
     <View
       style={

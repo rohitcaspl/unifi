@@ -279,7 +279,7 @@ const SigneeInformation = ({
           const fieldKey = field.name; 
           signData.users[0].text[fieldKey] = fieldValue;
           
-          console.log(`Text input for ${field.name}:`, fieldValue);
+       
       
 // Initialize each text field
         }

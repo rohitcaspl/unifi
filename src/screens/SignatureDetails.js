@@ -18,7 +18,7 @@ const imageDimension = screenWidth * 0.15;
 
 const SignatureDetails = ({ route }) => {
   const { signature } = route.params;
-  console.log("previuew", route);
+
   const { bottom } = useSafeAreaInsets();
 
   const { isConnected } = useNetInfo();

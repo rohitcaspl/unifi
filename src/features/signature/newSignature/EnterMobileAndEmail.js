@@ -38,7 +38,7 @@ const EnterMobileAndEmail = ({
     {
       onSuccess: async (res) => {
         const mobile = getValues('phone');
-       console.log('datamat', mobile);
+    
         await setSignee({ mobile });
         setSessionId(res.data.session_id);
         setCurrentStep(NEW_SIGNATURE_STEPS.verify);
