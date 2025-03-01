@@ -26,6 +26,7 @@ const SignatureLog = () => {
     filterData,
     sort,
   } = useFilterSignatures();
+  console.log('SignatureLog -> filterData', filterData);
   return (
     <Layout defaultNav>
       {filterData?.project ? (
@@ -48,7 +49,7 @@ const SignatureLog = () => {
                 customStyle={styles.formsFilter}
               />
               <View style={styles.wrapper}>
-                <CustomText bold>Signatures</CustomText>
+                <CustomText bold>Consents</CustomText>
                 <CustomModalDropdown
                   icon={SortIcon}
                   options={SIGNATURE_SORT_OPTIONS}

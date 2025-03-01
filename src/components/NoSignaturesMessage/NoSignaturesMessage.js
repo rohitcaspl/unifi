@@ -11,16 +11,16 @@ const NoSignaturesMessage = () => {
     <View style={styles.container}>
       <FolderIcon />
       <CustomText size={18} bold style={styles.titleMessage}>
-        You don’t have any signatures.
+        You don’t have any consent.
       </CustomText>
       <CustomText textAlign={'center'}>
-        Please check your connection or try adding new signature.
+        Please check your connection or capture consent.
       </CustomText>
       <Button
         customStyle={styles.button}
         text='Take me to Workspaces'
         onPress={() => {
-          navigation.navigate('ProjectsList');
+          navigation.navigate('TabNavigator');
         }}
       />
     </View>

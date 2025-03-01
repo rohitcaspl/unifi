@@ -18,7 +18,7 @@ const imageDimension = screenWidth * 0.15;
 
 const SignatureDetails = ({ route }) => {
   const { signature } = route.params;
-  console.log("previuew", signature);
+  console.log("previuew", route);
   const { bottom } = useSafeAreaInsets();
 
   const { isConnected } = useNetInfo();
@@ -66,7 +66,7 @@ const SignatureDetails = ({ route }) => {
           </View>
           <View style={styles.mb}>
             <SignatureDetailsItem
-              value={signature.name}
+              value={signature.form_owner}
               placeholder={'Doc manager'}
             />
           </View>

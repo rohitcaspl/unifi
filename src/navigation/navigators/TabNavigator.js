@@ -53,8 +53,8 @@ const TabNavigator = () => {
         name='SignatureLog'
         component={SignatureLog}
         options={{
-          tabBarLabel: 'Signature Log',
-          title: 'Signature Log',
+          tabBarLabel: 'Consent Log',
+          title: 'Consent Log',
           tabBarIcon: ({ focused }) => (
             <FormIcon
               width={16}

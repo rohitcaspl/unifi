@@ -48,12 +48,7 @@ const useSignPdf = () => {
               break;
             }
             case 'signature': {
-              console.log('Processing signature field at:', {
-                x: field.frame.x,
-                y: field.frame.y,
-                width: field.frame.width,
-                height: field.frame.height
-              });
+        
   
               if (signature) {
                 try {
