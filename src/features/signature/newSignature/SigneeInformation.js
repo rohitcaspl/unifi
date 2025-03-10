@@ -32,7 +32,7 @@ import { createThumbnail } from 'react-native-create-thumbnail';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMediaContext } from 'context/MediaContext';
 import { useAuthContext } from 'context/AuthContext';
-
+import { getSignedDoc } from 'api/lambdaApi/signatures'
 
 import {
   useCreateDoc,
@@ -58,7 +58,9 @@ const SigneeInformation = ({
   const [toggleValue, setToggleValue] = useState(onlyVideoConsent ? 2 : 1);
   const { isCameraGranted, checkCameraPermission } = useCameraPermission();
   const [hasPermission, setHasPermission] = useState(false);
-
+  const [currentFormId, setCurrentFormId] = useState('');
+  const [currentFormSignatures, setCurrentFormSignatures] = useState([]);
+  const SIGNATURES_LIMIT = 100;
 
   const [thumbnail, setThumbnail] = useState(null);
   const [formFields, setFormFields] = useState([]);
@@ -138,7 +140,10 @@ const SigneeInformation = ({
     text: {},
   });
 
-
+  useEffect(() => {
+ 
+    setCurrentFormId(`${pdfData.form_id}`)
+  }, []);
   const {
     handleSubmit,
     setValue,
@@ -221,7 +226,31 @@ const SigneeInformation = ({
         setThumbnail(res.path);
       });
     };
-   
+    const fetchAndSetSignatures = async (currentFormId) => {
+      try {
+        const params = {
+          project_id: pdfData.project_id,
+          limit: SIGNATURES_LIMIT,
+        };
+        const signedDocRes = await getSignedDoc(params);
+        const matchedSignatures = signedDocRes.signatures.filter(
+          (signItem) => signItem.form_id === currentFormId
+        );
+    
+        setCurrentFormSignatures((prevSignatures) => [
+          ...prevSignatures,
+          ...matchedSignatures,
+        ]);
+    
+      } catch (error) {
+        throw error;
+      }
+    };
+    useEffect(() => {
+      if (currentFormId) {
+        fetchAndSetSignatures(currentFormId);
+      }
+    }, [currentFormId]);
     useEffect(() => {
       video ? generateThumbnail(video.path) : setThumbnail();
     }, [video]);
@@ -286,8 +315,23 @@ const SigneeInformation = ({
       });
    
       setShouldShowSpinner(true);
-      try {
-        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature,formValues.location ,selectedSubject);
+      const subjectsLength = pdfData.subjects.length;
+        
+      if (currentFormSignatures) {
+  
+        if (subjectsLength <= currentFormSignatures.length && res.form.form_type === 'multiple_subject') {
+          alert(
+            'Submission failed: All the people have already signed the documents. You cannot sign anymore documents!'
+          );
+          return;
+        }
+      }
+      try {console.log("dfiuya",currentFormId);
+        await fetchAndSetSignatures(currentFormId);
+        console.log("dffere");
+        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature,formValues.location ,selectedSubject,currentFormSignatures);
+     
+
         await handleUpload(pdf, signData);
       } catch (err) {
         Sentry.captureException(err);
