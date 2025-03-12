@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-trailing-spaces */
 import { compressImage } from '@shared/helpers';
@@ -191,7 +192,9 @@ const useSignPdf = () => {
       let newPdfData = "";
       console.log(" satya ");
       if(pdfData.form_type === "multiple_subject"){
+        console.log('datamerge',currentFormSignatures);
         if(currentFormSignatures.length > 0) {
+          console.log('datamerge23');
           newPdfData = currentFormSignatures[0].signed_doc_url
         } 
       }

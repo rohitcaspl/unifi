@@ -1,3 +1,6 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-alert */
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable curly */
 /* eslint-disable quotes */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -141,9 +144,13 @@ const SigneeInformation = ({
   });
 
   useEffect(() => {
- 
-    setCurrentFormId(`${pdfData.form_id}`)
-  }, []);
+    // Add conditional logic for multi-subject forms
+    if (pdfData?.form_type === 'multiple_subject' && selectedSubject) {
+      setCurrentFormId(`${pdfData.project_id}_${pdfData.form_id}_${selectedSubject}`);
+    } else {
+      setCurrentFormId(`${pdfData.project_id}_${pdfData.form_id}`);
+    }
+  }, [pdfData, selectedSubject]); // Add missing dependencies// Add selectedSubject as dependency
   const {
     handleSubmit,
     setValue,
@@ -226,31 +233,25 @@ const SigneeInformation = ({
         setThumbnail(res.path);
       });
     };
-    const fetchAndSetSignatures = async (currentFormId) => {
+    const fetchAndSetSignatures = useCallback(async (currentFormId) => {
       try {
         const params = {
           project_id: pdfData.project_id,
           limit: SIGNATURES_LIMIT,
+          form_id: currentFormId, // Add form_id to API params
         };
         const signedDocRes = await getSignedDoc(params);
-        const matchedSignatures = signedDocRes.signatures.filter(
-          (signItem) => signItem.form_id === currentFormId
-        );
-    
-        setCurrentFormSignatures((prevSignatures) => [
-          ...prevSignatures,
-          ...matchedSignatures,
-        ]);
-    
+        console.log('data breach',signedDocRes);
+        setCurrentFormSignatures(signedDocRes.signatures);
       } catch (error) {
         throw error;
       }
-    };
+    }, [pdfData.project_id]); // Add dependencies used in the function
     useEffect(() => {
       if (currentFormId) {
         fetchAndSetSignatures(currentFormId);
       }
-    }, [currentFormId]);
+    }, [currentFormId, fetchAndSetSignatures]); // Add fetchAndSetSignatures to dependencies// Fetches when currentFormId changes (including subject)
     useEffect(() => {
       video ? generateThumbnail(video.path) : setThumbnail();
     }, [video]);
@@ -316,13 +317,13 @@ const SigneeInformation = ({
    
       setShouldShowSpinner(true);
       const subjectsLength = pdfData.subjects.length;
-        
+        console.log(subjectsLength);
+      console.log('shootmerge',currentFormSignatures);
       if (currentFormSignatures) {
   
-        if (subjectsLength <= currentFormSignatures.length && res.form.form_type === 'multiple_subject') {
-          alert(
-            'Submission failed: All the people have already signed the documents. You cannot sign anymore documents!'
-          );
+        if (subjectsLength <= currentFormSignatures.length && pdfData.form_type === 'multiple_subject') {
+            alert('Submission failed: All the people have already signed the documents. You cannot sign anymore documents!');
+            setShouldShowSpinner(false);
           return;
         }
       }
