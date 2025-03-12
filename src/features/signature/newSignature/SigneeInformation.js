@@ -3,7 +3,7 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable curly */
 /* eslint-disable quotes */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState ,useMemo} from 'react';
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, useFormContext } from 'react-hook-form';
@@ -75,6 +75,7 @@ const SigneeInformation = ({
   const [subjectOptions, setSubjectOptions] = useState([]);
   const { isMicrophoneGranted, checkMicrophonePermission } =
     useMicrophonePermission();
+    const hasSignatureField = useMemo(() => formFields.some(field => field.type === "SIGNATURE"),[formFields]);
  
   useEffect(() => {
     const handleVideo = async () => {
@@ -220,6 +221,8 @@ const SigneeInformation = ({
   const { mutateAsync: uploadVideo, isLoading: isUploadingVideo } =
     useUploadVideo();
   useEffect(() => {
+
+    
     if (selectedSubject) {
       const subjectData = pdfData.subjects.find(sub => sub.title === selectedSubject);
       setFormFields(subjectData ? subjectData.pdf_fields : []);
@@ -525,7 +528,14 @@ const SigneeInformation = ({
             />
             <Button
               text="Next"
-              disabled={isUploadingVideo || (!signature && !video) || !isValid}
+              disabled={
+                isUploadingVideo ||
+                (hasSignatureField && ( // Only check if form requires signature/video
+                  (toggleValue === 1 && !signature) || 
+                  (toggleValue === 2 && !video)
+                )) ||
+                !isValid
+              }
               onPress={handleSubmit(onSubmit)}
               customStyle={styles.btn}
             />
