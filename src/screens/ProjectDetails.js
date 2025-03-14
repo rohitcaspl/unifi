@@ -1,3 +1,6 @@
+/* eslint-disable curly */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/react-in-jsx-scope */
 import PropTypes from 'prop-types';
 import FormList from '@features/form/FormList';
 import colors from '@theme/colors';
@@ -14,7 +17,7 @@ import { formatDate } from '@shared/helpers';
 import { useNavigation } from '@react-navigation/native';
 
 const ProjectDetails = ({ route }) => {
-  console.log("new route data" ,route.agents); 
+  console.log("new route data" ,route); 
   const [formSort, setFormSort] = useState(CUSTOM_SORT_OPTIONS[0].value);
   const [mappedData, setMappedData] = useState([]);
 
@@ -57,6 +60,13 @@ const ProjectDetails = ({ route }) => {
   }, [formSort, project.forms, navigate, project._id]);
 
   const HeaderComponent = () => {
+    const renderInitials = (name) => {
+      const nameParts = name;
+      if (nameParts.length >= 2) {
+        return `${nameParts[0][0]}${nameParts[1][0]}`.toUpperCase();
+      }
+      return name.slice(0, 2).toUpperCase();
+    };
     return (
       <View style={styles.container}>
         <CustomText bold size={24}>
@@ -81,19 +91,17 @@ const ProjectDetails = ({ route }) => {
           Users
         </CustomText>
         <View style={styles.avatarWrapper}>
-          {project.agents.map((user, index) => {
+          {project.docmanagers.map((user, index) => {
             if (index < 5)
               return (
-                <CustomImage
-                  uri={user?.image?.url}
-                  key={user._id}
-                  customStyle={styles.avatar}
-                />
+                <View style={styles.nameCard} key={user._id}>
+                  <CustomText>{user.full_name}</CustomText>
+                </View>
               );
           })}
-          {project.agents.length > 5 ? (
+          {project.docmanagers.length > 5 ? (
             <CustomText bold style={styles.nmOfUsers}>
-              +{project.agents.length - 5}
+              +{project.docmanagers.length - 5}
             </CustomText>
           ) : null}
         </View>
@@ -138,6 +146,18 @@ ProjectDetails.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  nameCard: {
+    padding: 18,
+    backgroundColor: colors.accentGray,
+    borderRadius: 8,
+    marginRight: 4,
+  },
+
+  initials: {
+    color: colors.white,
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
   container: {
     width: '100%',
     flex: 1,
@@ -193,4 +213,5 @@ const styles = StyleSheet.create({
     color: colors.orange,
     marginLeft: 8,
   },
+  
 });
