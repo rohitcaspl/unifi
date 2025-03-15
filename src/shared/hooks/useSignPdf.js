@@ -1,4 +1,3 @@
-/* eslint-disable quotes */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-trailing-spaces */
 import { compressImage } from '@shared/helpers';
@@ -22,7 +21,7 @@ const useSignPdf = () => {
       );
       pdfDoc.registerFontkit(fontkit);
       const font = await pdfDoc.embedFont(fontBytes);
-  console.log('pdfData',pdfData);
+  console.log('adfData',pdfData);
   console.log('signdta',signData);
   let filteredSubjects;
   if (signData.formType === 'multiple_subject') {
@@ -188,22 +187,8 @@ const useSignPdf = () => {
   
 
   const handleSignPdf = useCallback(
-    async (pdfData, signData, uri, signature,loca,selectedsub,currentFormSignatures) => {
-      let newPdfData = "";
-      console.log(" satya ");
-      if(pdfData.form_type === "multiple_subject"){
-        console.log('datamerge',currentFormSignatures);
-        if(currentFormSignatures.length > 0) {
-          console.log('datamerge23');
-          newPdfData = currentFormSignatures[0].signed_doc_url
-        } 
-      }
-      let fetchUrl = newPdfData != "" ? newPdfData : pdfData.url;
-      if (!fetchUrl) {
-        console.error("Error: No valid URL found for fetching PDF.");
-        return;
-      }
-      const pdfBytes = await ReactNativeBlobUtil.fetch('GET', fetchUrl).then(
+    async (pdfData, signData, uri, signature,loca,selectedsub) => {
+      const pdfBytes = await ReactNativeBlobUtil.fetch('GET', pdfData.url).then(
         res => res.data
       );
       const pdfDoc = await PDFDocument.load(pdfBytes);

@@ -11,13 +11,21 @@ import Check from '@assets/icons/check-filled.svg';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { onPdfShare } from '@shared/helpers';
 import Layout from '@components/Layout';
-
+import { BackHandler } from "react-native";
 const SuccessModal = ({ route }) => {
   const { signedPdf } = route.params;
   const navigation = useNavigation();
 
   const [counter, setCounter] = useState(10);
-
+  useEffect(() => {
+    const backAction = () => true; // Return true to prevent back action
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+  
+    return () => backHandler.remove(); // Cleanup on unmount
+  }, []);
   useEffect(() => {
     const timer = counter > 0 && setInterval(() => setCounter(counter - 1), 50);
     return () => clearInterval(timer);

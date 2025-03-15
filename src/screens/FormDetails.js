@@ -65,16 +65,12 @@ const FormDetails = ({ route }) => {
   const filterData = { form: form, project: { _id: projectId } };
   useEffect(() => {
     const fetchFormDetails = async () => {
-
       setIsLoading(true);
       try {
-      
-
         const response = await getFormDetails({
           formId: route.params.form._id,
           tenant: selectedWorkspace.tenant,
         });
-  
         setFormDetails(response.data); 
         setIsLoading(false);
       } catch (error) {
@@ -86,6 +82,7 @@ const FormDetails = ({ route }) => {
 
     fetchFormDetails();
   }, [route.params?.form?._id, selectedWorkspace?.tenant]);
+
   const onPreviewPress = () => {
     navigation.navigate('PdfViewer', {
       pdf: form.url,
@@ -112,6 +109,47 @@ const FormDetails = ({ route }) => {
       animationDuration: 100,
       duration: 2000,
     });
+  };
+
+  // Check if the Start Doc button should be disabled
+  let isStartDocDisabled = isLoading;
+
+  // Handle Start Doc button press
+  const handleStartDocPress = () => {
+    if (!formDetails) return;
+
+    if (signatureCount >= formDetails.subjects.length) {
+      Alert.alert(
+        'Cannot Proceed',
+        'All required consents have already been collected. You cannot start a new Consent.',
+      );
+      return;
+    }
+    setOpenModal(true);
+    isStartDocDisabled = isLoading || (formDetails && signatureCount >= formDetails.subjects?.length);
+  };
+
+  // Handle modal continue press
+  const handleModalContinue = () => {
+    if (!formDetails || signatureCount >= formDetails.subjects.length) {
+      Alert.alert(
+        'Cannot Proceed',
+        'All required consents have been collected. You cannot start a new document.',
+      );
+      setOpenModal(false);
+      return;
+    }
+
+    navigation.navigate('NewSignature', {
+      pdfData: {
+        ...formDetails,
+        url: formDetails?.url,
+        form_id: formDetails?._id,
+        form_name: formDetails?.form_name,
+        project_id: projectId,
+      },
+    });
+    setOpenModal(false);
   };
 
   return (
@@ -171,9 +209,8 @@ const FormDetails = ({ route }) => {
         >
           <Button
             text='Start Doc'
-            onPress={() => {
-              setOpenModal(true);
-            }}
+            onPress={handleStartDocPress}
+            disabled={isStartDocDisabled}
             customStyle={styles.topButton}
           />
           <Button
@@ -200,23 +237,11 @@ const FormDetails = ({ route }) => {
       <ModalComponent
         title='Data Storage Alert'
         topText={`Signee's contact details are required to complete this form`}
-        bottomText='Their information will not be stored on
-this device.'
+        bottomText='Their information will not be stored on this device.'
         primaryButtonText='Continue'
         isOpen={openModal}
         setIsOpen={setOpenModal}
-        onPrimaryPress={() => {
-          navigation.navigate('NewSignature', {
-            pdfData: {
-              ...formDetails,
-              url: formDetails?.url, // Make sure to pass the relevant PDF data
-              form_id: formDetails?._id,
-              form_name: formDetails?.form_name,
-              project_id: projectId,
-            },
-          });
-          setOpenModal(false);
-        }}
+        onPrimaryPress={handleModalContinue}
       />
       <ModalComponent
         title='One-time link'

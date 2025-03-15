@@ -60,13 +60,6 @@ const ProjectDetails = ({ route }) => {
   }, [formSort, project.forms, navigate, project._id]);
 
   const HeaderComponent = () => {
-    const renderInitials = (name) => {
-      const nameParts = name;
-      if (nameParts.length >= 2) {
-        return `${nameParts[0][0]}${nameParts[1][0]}`.toUpperCase();
-      }
-      return name.slice(0, 2).toUpperCase();
-    };
     return (
       <View style={styles.container}>
         <CustomText bold size={24}>
@@ -152,17 +145,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginRight: 4,
   },
-
-  initials: {
-    color: colors.white,
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
   container: {
     width: '100%',
     flex: 1,
   },
-
   avatarWrapper: {
     alignItems: 'center',
     width: '100%',

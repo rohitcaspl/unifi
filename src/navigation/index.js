@@ -64,11 +64,15 @@ const Navigation = () => {
               component={PdfViewer}
               options={{ animation: 'slide_from_bottom', headerShown: false }}
             />
-            <Stack.Screen
-              name='SuccessModal'
-              component={SuccessModal}
-              options={{ animation: 'slide_from_bottom', headerShown: false }}
-            />
+           <Stack.Screen
+  name="SuccessModal"
+  component={SuccessModal}
+  options={{
+    animation: "slide_from_bottom",
+    headerShown: false,
+    gestureEnabled: false, // Disables swipe-back gestures on iOS
+  }}
+/>
             <Stack.Screen
               name='CameraPage'
               component={CameraPage}

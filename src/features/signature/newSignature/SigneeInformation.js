@@ -1,9 +1,6 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-alert */
-/* eslint-disable no-trailing-spaces */
 /* eslint-disable curly */
 /* eslint-disable quotes */
-import React, { useCallback, useEffect, useRef, useState ,useMemo} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, useFormContext } from 'react-hook-form';
@@ -35,7 +32,7 @@ import { createThumbnail } from 'react-native-create-thumbnail';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMediaContext } from 'context/MediaContext';
 import { useAuthContext } from 'context/AuthContext';
-import { getSignedDoc } from 'api/lambdaApi/signatures'
+
 
 import {
   useCreateDoc,
@@ -61,9 +58,7 @@ const SigneeInformation = ({
   const [toggleValue, setToggleValue] = useState(onlyVideoConsent ? 2 : 1);
   const { isCameraGranted, checkCameraPermission } = useCameraPermission();
   const [hasPermission, setHasPermission] = useState(false);
-  const [currentFormId, setCurrentFormId] = useState('');
-  const [currentFormSignatures, setCurrentFormSignatures] = useState([]);
-  const SIGNATURES_LIMIT = 100;
+
 
   const [thumbnail, setThumbnail] = useState(null);
   const [formFields, setFormFields] = useState([]);
@@ -75,7 +70,6 @@ const SigneeInformation = ({
   const [subjectOptions, setSubjectOptions] = useState([]);
   const { isMicrophoneGranted, checkMicrophonePermission } =
     useMicrophonePermission();
-    const hasSignatureField = useMemo(() => formFields.some(field => field.type === "SIGNATURE"),[formFields]);
  
   useEffect(() => {
     const handleVideo = async () => {
@@ -144,14 +138,7 @@ const SigneeInformation = ({
     text: {},
   });
 
-  useEffect(() => {
-    // Add conditional logic for multi-subject forms
-    if (pdfData?.form_type === 'multiple_subject' && selectedSubject) {
-      setCurrentFormId(`${pdfData.project_id}_${pdfData.form_id}_${selectedSubject}`);
-    } else {
-      setCurrentFormId(`${pdfData.project_id}_${pdfData.form_id}`);
-    }
-  }, [pdfData, selectedSubject]); // Add missing dependencies// Add selectedSubject as dependency
+
   const {
     handleSubmit,
     setValue,
@@ -221,8 +208,6 @@ const SigneeInformation = ({
   const { mutateAsync: uploadVideo, isLoading: isUploadingVideo } =
     useUploadVideo();
   useEffect(() => {
-
-    
     if (selectedSubject) {
       const subjectData = pdfData.subjects.find(sub => sub.title === selectedSubject);
       setFormFields(subjectData ? subjectData.pdf_fields : []);
@@ -236,25 +221,7 @@ const SigneeInformation = ({
         setThumbnail(res.path);
       });
     };
-    const fetchAndSetSignatures = useCallback(async (currentFormId) => {
-      try {
-        const params = {
-          project_id: pdfData.project_id,
-          limit: SIGNATURES_LIMIT,
-          form_id: currentFormId, // Add form_id to API params
-        };
-        const signedDocRes = await getSignedDoc(params);
-        console.log('data breach',signedDocRes);
-        setCurrentFormSignatures(signedDocRes.signatures);
-      } catch (error) {
-        throw error;
-      }
-    }, [pdfData.project_id]); // Add dependencies used in the function
-    useEffect(() => {
-      if (currentFormId) {
-        fetchAndSetSignatures(currentFormId);
-      }
-    }, [currentFormId, fetchAndSetSignatures]); // Add fetchAndSetSignatures to dependencies// Fetches when currentFormId changes (including subject)
+   
     useEffect(() => {
       video ? generateThumbnail(video.path) : setThumbnail();
     }, [video]);
@@ -319,23 +286,8 @@ const SigneeInformation = ({
       });
    
       setShouldShowSpinner(true);
-      const subjectsLength = pdfData.subjects.length;
-        console.log(subjectsLength);
-      console.log('shootmerge',currentFormSignatures);
-      if (currentFormSignatures) {
-  
-        if (subjectsLength <= currentFormSignatures.length && pdfData.form_type === 'multiple_subject') {
-            alert('Submission failed: All the people have already signed the documents. You cannot sign anymore documents!');
-            setShouldShowSpinner(false);
-          return;
-        }
-      }
-      try {console.log("dfiuya",currentFormId);
-        await fetchAndSetSignatures(currentFormId);
-        console.log("dffere");
-        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature,formValues.location ,selectedSubject,currentFormSignatures);
-     
-
+      try {
+        const pdf = await handleSignPdf(pdfData, signData, imageData.uri,  signature,formValues.location ,selectedSubject);
         await handleUpload(pdf, signData);
       } catch (err) {
         Sentry.captureException(err);
@@ -528,14 +480,7 @@ const SigneeInformation = ({
             />
             <Button
               text="Next"
-              disabled={
-                isUploadingVideo ||
-                (hasSignatureField && ( // Only check if form requires signature/video
-                  (toggleValue === 1 && !signature) || 
-                  (toggleValue === 2 && !video)
-                )) ||
-                !isValid
-              }
+              disabled={isUploadingVideo || !isValid}
               onPress={handleSubmit(onSubmit)}
               customStyle={styles.btn}
             />
@@ -640,4 +585,3 @@ SigneeInformation.propTypes = {
 
 
 export default SigneeInformation;
-
