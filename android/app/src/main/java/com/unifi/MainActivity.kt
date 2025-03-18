@@ -1,4 +1,4 @@
-package com.unifi
+package com.clearedforusecom.cfu
 
 import android.os.Bundle
 import android.content.Intent
@@ -16,7 +16,7 @@ class MainActivity : ReactActivity() {
    * Returns the name of the main component registered from JavaScript.
    * Make sure this string exactly matches the component name registered in your JS entry file.
    */
-  override fun getMainComponentName(): String = "unifi"
+  override fun getMainComponentName(): String = "everysign"
 
   override fun onCreate(savedInstanceState: Bundle?) {
     // Show the splash screen using your defined theme.

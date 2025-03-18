@@ -71,6 +71,7 @@ const FormDetails = ({ route }) => {
           formId: route.params.form._id,
           tenant: selectedWorkspace.tenant,
         });
+        console.log('formDetails',response);
         setFormDetails(response.data); 
         setIsLoading(false);
       } catch (error) {

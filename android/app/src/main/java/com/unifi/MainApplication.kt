@@ -1,4 +1,4 @@
-package com.unifi
+package com.clearedforusecom.cfu
 
 import android.app.Application
 import com.facebook.react.PackageList
