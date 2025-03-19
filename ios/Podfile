@@ -74,7 +74,8 @@ target 'unifi' do
   # Add React Native dependencies explicitly
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
-
+  pod 'Firebase/CoreOnly'
+  pod 'Firebase/Crashlytics'
   post_install do |installer|
     # React Native post-install setup
     react_native_post_install(

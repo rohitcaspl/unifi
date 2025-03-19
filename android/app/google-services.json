@@ -41,6 +41,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481542294535:android:cda2cbe7d3e65f95ffeea2",
+        "android_client_info": {
+          "package_name": "com.everysign"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481542294535-jtkdbuq18brj7riuu7jkiqjooh5ara0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3Mj85bPb4n_ZF6qX_CwnqnpWcFbgCF1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481542294535-jtkdbuq18brj7riuu7jkiqjooh5ara0p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "481542294535-8b3qjr5c7v8fesu4dc2dppj23u35i5qp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.clearedforusecom.cfu-v3",
+                "app_store_id": "1611034662"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
