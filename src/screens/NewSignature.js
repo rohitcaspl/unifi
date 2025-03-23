@@ -120,6 +120,8 @@ NewSignature.propTypes = {
         url: PropTypes.string,
         form_id: PropTypes.string,
         project_id: PropTypes.string,
+        first_signed_url: PropTypes.string,      // Send the first signed_doc_url
+        consentee_name_arr :PropTypes.array,
       }),
     }),
   }),

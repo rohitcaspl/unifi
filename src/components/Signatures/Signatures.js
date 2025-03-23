@@ -12,6 +12,7 @@ const Signatures = ({
   filterData,
   renderItem,
   footerComponent,
+  onSignaturesUpdate,
 }) => {
   const {
     signatures,
@@ -31,7 +32,11 @@ const Signatures = ({
       pdf: item.signed_doc_url,
     });
   };
-
+  useEffect(() => {
+    if (onSignaturesUpdate) {
+      onSignaturesUpdate(signatures); // Pass signatures to parent
+    }
+  }, [signatures, onSignaturesUpdate]);
   useEffect(() => {
     if (setSignatureCount) {
       setSignatureCount(totalSignaturesCount);
@@ -72,6 +77,7 @@ Signatures.propTypes = {
   }),
   renderItem: PropTypes.any,
   footerComponent: PropTypes.node,
+  onSignaturesUpdate: PropTypes.func,
 };
 
 export default Signatures;

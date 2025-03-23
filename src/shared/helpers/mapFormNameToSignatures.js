@@ -34,7 +34,8 @@ export const mapFormsToSignatures = (projects, signatures) => {
         signed_doc_url: signature.signed_doc_url,
         form_name: mappedForm.form_name,
         form_owner: mappedForm.form_owner, // Add form owner to the card
-        project_name: signature.project_name
+        project_name: signature.project_name,
+        consentee_name: signature.consentee_name,
       });
     });
   });

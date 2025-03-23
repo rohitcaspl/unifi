@@ -188,7 +188,9 @@ const useSignPdf = () => {
 
   const handleSignPdf = useCallback(
     async (pdfData, signData, uri, signature,loca,selectedsub) => {
-      const pdfBytes = await ReactNativeBlobUtil.fetch('GET', pdfData.url).then(
+      console.log('pdfData invel',pdfData);
+      const urlToFetch = pdfData.first_signed_url || pdfData.url;
+      const pdfBytes = await ReactNativeBlobUtil.fetch('GET', urlToFetch).then(
         res => res.data
       );
       const pdfDoc = await PDFDocument.load(pdfBytes);

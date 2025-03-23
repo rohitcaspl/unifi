@@ -42,7 +42,7 @@ const FormDetails = ({ route }) => {
   const [signatureSort, setSignatureSort] = useState(
     SIGNATURE_SORT_OPTIONS[0].value,
   );
-
+  const [signatures, setSignatures] = useState([]);
   const { form, projectId } = route.params;
   const { isConnected } = useNetInfo();
 
@@ -83,7 +83,9 @@ const FormDetails = ({ route }) => {
 
     fetchFormDetails();
   }, [route.params?.form?._id, selectedWorkspace?.tenant]);
-
+  useEffect(() => {
+    console.log('Signatures in FormDetails:', signatures);
+  }, [signatures]);
   const onPreviewPress = () => {
     navigation.navigate('PdfViewer', {
       pdf: form.url,
@@ -111,7 +113,12 @@ const FormDetails = ({ route }) => {
       duration: 2000,
     });
   };
-
+  const handleSignaturesUpdate = updatedSignatures => {
+    // Only update state if the signatures array has changed
+    if (JSON.stringify(updatedSignatures) !== JSON.stringify(signatures)) {
+      setSignatures(updatedSignatures);
+    }
+  };
   // Check if the Start Doc button should be disabled
   let isStartDocDisabled = isLoading;
 
@@ -140,7 +147,8 @@ const FormDetails = ({ route }) => {
       setOpenModal(false);
       return;
     }
-
+    const firstSignedDocUrl = signatures[0]?.signed_doc_url || null;
+    const uniqueConsenteeNames = [...new Set(signatures.map(sig => sig.consentee_name))];
     navigation.navigate('NewSignature', {
       pdfData: {
         ...formDetails,
@@ -148,6 +156,8 @@ const FormDetails = ({ route }) => {
         form_id: formDetails?._id,
         form_name: formDetails?.form_name,
         project_id: projectId,
+      first_signed_url:  firstSignedDocUrl,          // Send the first signed_doc_url
+      consentee_name_arr:  uniqueConsenteeNames,
       },
     });
     setOpenModal(false);
@@ -198,6 +208,7 @@ const FormDetails = ({ route }) => {
           setSignatureCount={setSignatureCount}
           renderItem={FormSignatureCard}
           footerComponent={<FooterComponent />}
+          onSignaturesUpdate={handleSignaturesUpdate}
         />
 
         <View

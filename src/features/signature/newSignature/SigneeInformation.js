@@ -54,11 +54,12 @@ const SigneeInformation = ({
   setCurrentStep,
   setNextTitle,
 }) => {  
+  console.log('SigneeInformation',pdfData.first_signed_url);
   const { userData } = useAuthContext();
   const [toggleValue, setToggleValue] = useState(onlyVideoConsent ? 2 : 1);
   const { isCameraGranted, checkCameraPermission } = useCameraPermission();
   const [hasPermission, setHasPermission] = useState(false);
-
+  const [isSubjectSigned, setIsSubjectSigned] = useState(false);
 
   const [thumbnail, setThumbnail] = useState(null);
   const [formFields, setFormFields] = useState([]);
@@ -71,6 +72,15 @@ const SigneeInformation = ({
   const { isMicrophoneGranted, checkMicrophonePermission } =
     useMicrophonePermission();
  
+    useEffect(() => {
+      if (selectedSubject) {
+        const subjectData = pdfData.subjects.find(sub => sub.title === selectedSubject);
+        setFormFields(subjectData ? subjectData.pdf_fields : []);
+        // Check if the selected subject is in consentee_name_arr
+        const isSigned = pdfData.consentee_name_arr?.includes(selectedSubject);
+        setIsSubjectSigned(isSigned);
+      }
+    }, [selectedSubject, pdfData]);
   useEffect(() => {
     const handleVideo = async () => {
       if (video) {
@@ -207,12 +217,16 @@ const SigneeInformation = ({
   ]);
   const { mutateAsync: uploadVideo, isLoading: isUploadingVideo } =
     useUploadVideo();
-  useEffect(() => {
-    if (selectedSubject) {
-      const subjectData = pdfData.subjects.find(sub => sub.title === selectedSubject);
-      setFormFields(subjectData ? subjectData.pdf_fields : []);
-    }
-  }, [selectedSubject, pdfData]);
+
+    useEffect(() => {
+      if (selectedSubject) {
+        const subjectData = pdfData.subjects.find(sub => sub.title === selectedSubject);
+        setFormFields(subjectData ? subjectData.pdf_fields : []);
+        // Check if the selected subject is in consentee_name_arr
+        const isSigned = pdfData.consentee_name_arr?.includes(selectedSubject);
+        setIsSubjectSigned(isSigned);
+      }
+    }, [selectedSubject, pdfData]);
  const generateThumbnail = async value => {
       await createThumbnail({
         url: value,
@@ -239,6 +253,7 @@ const SigneeInformation = ({
        // Populated later
         agentId: userData.data.data._id,
         formType: pdfData.form_type,
+        consenteeName : selectedSubject,
         users: [
           {
             user_id: imageData.user_id,
@@ -306,6 +321,7 @@ const SigneeInformation = ({
 
       // Update signData with the signed_doc_id
       signData.signed_doc_id = docSlot.id;
+     
       await postSignature(signData);
     },
     [createDoc, uploadSignature, postSignature],
@@ -330,7 +346,12 @@ const SigneeInformation = ({
         />
       </View>
     )}
-   {formFields.map((field, index) => {
+ {isSubjectSigned ? (
+            <CustomText style={styles.errorMessage}>
+              This subject has already been signed.
+            </CustomText>
+          ) : ( 
+            formFields.map((field, index) => {
   if (field.type === "NAME") {
     const fieldName = `name_${index}`;
     return (
@@ -470,7 +491,8 @@ const SigneeInformation = ({
             } else {
               return null;
             }
-          })}
+          })
+        )}
           <View style={styles.buttons}>
             <Button
               text="Back"
@@ -480,7 +502,7 @@ const SigneeInformation = ({
             />
             <Button
               text="Next"
-              disabled={isUploadingVideo || !isValid}
+              disabled={isUploadingVideo || !isValid || isSubjectSigned}
               onPress={handleSubmit(onSubmit)}
               customStyle={styles.btn}
             />
@@ -555,6 +577,10 @@ const styles = StyleSheet.create({
   dateIcon: {
     top: '35%',
   },
+  errorMessage: {
+    color: 'red',
+    marginBottom: 24,
+  },
 });
 
 
@@ -568,6 +594,8 @@ SigneeInformation.propTypes = {
     form_id: PropTypes.string,
     form_name: PropTypes.string,
     project_id: PropTypes.string,
+      first_signed_url: PropTypes.string,      // Send the first signed_doc_url
+            consentee_name_arr :PropTypes.array,
   }),
   imageData: PropTypes.shape({
     uri: PropTypes.string,
