@@ -1,4 +1,4 @@
-package com.clearedforusecom.cfu
+package com.everysign
 
 import android.os.Bundle
 import android.content.Intent

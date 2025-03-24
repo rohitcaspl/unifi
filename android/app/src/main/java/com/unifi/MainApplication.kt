@@ -1,4 +1,4 @@
-package com.clearedforusecom.cfu
+package com.everysign
 
 import android.app.Application
 import com.facebook.react.PackageList
