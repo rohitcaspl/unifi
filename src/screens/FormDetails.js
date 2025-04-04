@@ -120,13 +120,16 @@ const FormDetails = ({ route }) => {
     }
   };
   // Check if the Start Doc button should be disabled
-  let isStartDocDisabled = isLoading;
+  let isStartDocDisabled = isLoading || 
+  (formDetails?.form_type === 'multiple_subject' && 
+   signatureCount >= formDetails.subjects?.length);
 
   // Handle Start Doc button press
   const handleStartDocPress = () => {
     if (!formDetails) return;
 
-    if (signatureCount >= formDetails.subjects.length) {
+    if (    formDetails.form_type === 'multiple_subject' &&
+      signatureCount >= formDetails.subjects.length) {
       Alert.alert(
         'Cannot Proceed',
         'All required consents have already been collected. You cannot start a new Consent.',
@@ -139,7 +142,15 @@ const FormDetails = ({ route }) => {
 
   // Handle modal continue press
   const handleModalContinue = () => {
-    if (!formDetails || signatureCount >= formDetails.subjects.length) {
+    if (!formDetails) {
+      setOpenModal(false);
+      return;
+    }
+  
+    // Check form type and signature count
+    if (
+      formDetails.form_type === 'multiple_subject' &&
+      signatureCount >= formDetails.subjects.length) {
       Alert.alert(
         'Cannot Proceed',
         'All required consents have been collected. You cannot start a new document.',
