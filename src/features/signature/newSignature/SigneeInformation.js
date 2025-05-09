@@ -10,7 +10,7 @@ import { getSignee } from '@storage/user';
 import ArrowRight from '@assets/icons/arrow-right.svg';
 import Location from '@assets/icons/location.svg';
 import SignatureIcon from '@assets/icons/signature.svg';
-import VideoIcon from '@assets/icons/video-consent.svg';
+import VideoIcon from '@assets/icons/video-consent.svg'; 
 
 
 import Button from '@components/Button/Button';
@@ -81,15 +81,24 @@ const SigneeInformation = ({
         setIsSubjectSigned(isSigned);
       }
     }, [selectedSubject, pdfData]);
+ 
+  const phoneRef = useRef(null);
+  const navigation = useNavigation();
+  const queryClient = useQueryClient();
+  const { mutateAsync: createDoc } = useCreateDoc();
+  const { video, signature } = useMediaContext();
+  const { getValues } = useFormContext();
+  const { mutateAsync: uploadSignature } = useUploadSignature({
+    onError: () => setShouldShowSpinner(false),
+  });
   useEffect(() => {
     const handleVideo = async () => {
-      if (video) {
+      if (video.uri) {
         try {
-          const videoResp = await fetch(video.path);
-          const videoData = videoResp.blob();
+          const videoSlot = await createVideo({ type: 'video/mp4' });
 
-
-          const videoSlot = await createVideo();
+          const videoResp = await fetch(video.uri);
+          const videoData = await videoResp.blob();
 
 
           await uploadVideo({ url: videoSlot.url, data: videoData });
@@ -106,17 +115,6 @@ const SigneeInformation = ({
 
     handleVideo();
   }, [video, createVideo, uploadVideo, setVideoId]);
-
-
-  const phoneRef = useRef(null);
-  const navigation = useNavigation();
-  const queryClient = useQueryClient();
-  const { mutateAsync: createDoc } = useCreateDoc();
-  const { video, signature } = useMediaContext();
-  const { getValues } = useFormContext();
-  const { mutateAsync: uploadSignature } = useUploadSignature({
-    onError: () => setShouldShowSpinner(false),
-  });
   const { mutateAsync: postSignature } = usePostSignature({
     onSuccess: () => {
       setShouldShowSpinner(false);
@@ -237,12 +235,11 @@ const SigneeInformation = ({
     };
    
     useEffect(() => {
-      video ? generateThumbnail(video.path) : setThumbnail();
+      video ? generateThumbnail(video?.path) : setThumbnail();
     }, [video]);
  
     const onSubmit = async () => {
       const formValues = getThirdStepValues();
-     
    
       // Dynamically construct the signData object
       const signData = {
@@ -250,6 +247,7 @@ const SigneeInformation = ({
         form_id: `${pdfData.project_id}_${pdfData.form_id}`,
         form_name: pdfData.form_name,
         signed_doc_id: '',
+        signed_doc_url: pdfData?.first_signed_url ? pdfData.first_signed_url : "",
        // Populated later
         agentId: userData.data.data._id,
         formType: pdfData.form_type,
@@ -265,7 +263,7 @@ const SigneeInformation = ({
             phone_number: mobile, // Key renamed to phone_number
             email: formValues.email,
             date: new Date().toISOString(),
-            ...(toggleValue === 2 && videoId && { video_id: videoId }),
+            ...(toggleValue === 2 && videoId && { video_id: videoId, video_url: video.path}),
           },
         ],
       };

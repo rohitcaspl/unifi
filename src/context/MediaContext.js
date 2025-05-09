@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,8 +10,21 @@ const MediaContext = createContext({
 });
 
 export const MediaProvider = ({ children }) => {
-  const [video, setVideo] = useState();
+  const [video, _setVideo] = useState();
   const [signature, setSignature] = useState();
+
+  const setVideo = (videoObj) => {
+    if (!videoObj) return;
+
+    const uriWithPrefix = videoObj?.path?.startsWith('file://')
+      ? videoObj.path
+      : `file://${videoObj.path}`;
+
+    _setVideo({
+      ...videoObj,
+      uri: uriWithPrefix,
+    });
+  };
 
   const value = useMemo(
     () => ({
